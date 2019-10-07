@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import './LandingPage.scss';
 import axios from 'axios';
 import images from '../../images'
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import _ from 'lodash';
 
-//Custom Utility Fn
+//Custom Utility
 import Validator from '../../utils/Validator'
 
 
@@ -83,24 +83,27 @@ class LandingPage extends Component {
     })
       .then(function (response) {
         console.log(response);
-        swal({
+        Swal.fire({
           title: "You are subscribed Successfully!",
           text: response.data.message,
-          icon: "success",
+          type: "success",
           button: "Ok!",
         })
-          .then(function () {
-            temp.setState({ email: '', phone: '' });
+          .then(() => {
+            temp.setState({ email: '', phone: '', emailValidation:'', phoneValidation:'' });
           });
       })
       .catch(function (error) {
         console.log(error);
-        swal({
+        Swal.fire({
           title: 'Error',
           text: error.response.data.message,
-          icon: "error",
+          type: "error",
           button: "Ok!",
         })
+          .then(() => {
+            temp.setState({ email: '', phone: '',emailValidation:'', phoneValidation:'' });
+          });
       });
   }
 
@@ -109,54 +112,57 @@ class LandingPage extends Component {
   }
   render() {
     return (
-      <div>
       <div className='wrapper'>
         <div className='section-1'>
-          <div className='left-part'>
-            <div className='top'>
-              <h1>THEREALITY.SOCIAL</h1>
+          <div className='container'>
+            <div className='left-part'>
+              <div className='top'>
+                <h1>THEREALITY.SOCIAL</h1>
+              </div>
+              <div className='middle'>
+                <h1><span id='black'>JOIN WORLD’S FIRST</span> REALITY SOCIAL NETWORK</h1>
+              </div>
+              <div className='bottom'>
+                <div className='vertical-line'></div>
+                <div className='list'><div className='circle1'></div></div>
+                <div className='list'><div className='circle'></div><h3>Real People</h3></div>
+                <div className='list'><div className='circle'></div><h3>Real Game</h3></div>
+                <div className='list'><div className='circle'></div><h3>Real Drama</h3></div>
+                <button onClick={() => this.redirectToSubscribe()}>Participate Now</button>
+              </div>
             </div>
-            <div className='middle'>
-              <h1><span id='black'>JOIN WORLD’S FIRST</span> REALITY SOCIAL NETWORK</h1>
+            <div className='right-part'>
+              <img className='rotate' src={images.path.logo} alt='' />
             </div>
-            <div className='bottom'>
-              <div className='vertical-line'></div>
-              <div className='list'><div className='circle1'></div></div>
-              <div className='list'><div className='circle'></div><h3>Real People</h3></div>
-              <div className='list'><div className='circle'></div><h3>Real Game</h3></div>
-              <div className='list'><div className='circle'></div><h3>Real Drama</h3></div>
-              <button onClick={() => this.redirectToSubscribe()}>Participate Now</button>
-            </div>
-          </div>
-          <div className='right-part'>
-            <img className='rotate' src={images.path.logo} alt='' />
           </div>
         </div>
         <div className='section-2'>
-          <div className='section-2-left'>
-            <div className='heading'>
-              <h1>A unique experience that involves the dynamics of social network and a social game. </h1>
-            </div>
-            <div className='lists'>
-              <div className='list-left'>
-                <div className='list'><div className='circle'></div><h3>Lies and Conflicts</h3></div>
-                <div className='list'><div className='circle'></div><h3>Alliances and Isolation</h3></div>
-                <div className='list'><div className='circle'></div><h3>Loyalty and Betrayals </h3></div>
-                <div className='list'><div className='circle'></div><h3>Gossips and Backstabs</h3></div>
-                <div className='list'><div className='circle'></div><h3>Hate and Love</h3></div>
+          <div className='container'>
+            <div className='section-2-left'>
+              <div className='heading'>
+                <h1>A unique experience that involves the dynamics of social network and a social game. </h1>
               </div>
-              <div className='list-right'>
-                <div className='list'><div className='circle'></div><h3>Challenges and Polls</h3></div>
-                <div className='list'><div className='circle'></div><h3>Nominations & Evictions</h3></div>
-                <div className='list'><div className='circle'></div><h3>Drama and Showmance</h3></div>
-                <div className='list'><div className='circle'></div><h3>Anonymous Players</h3></div>
-                <div className='list'><div className='circle'></div><h3>Outrageous Characters</h3></div>
+              <div className='lists'>
+                <div className='list-left'>
+                  <div className='list'><div className='circle'></div><h3>Lies and Conflicts</h3></div>
+                  <div className='list'><div className='circle'></div><h3>Alliances and Isolation</h3></div>
+                  <div className='list'><div className='circle'></div><h3>Loyalty and Betrayals </h3></div>
+                  <div className='list'><div className='circle'></div><h3>Gossips and Backstabs</h3></div>
+                  <div className='list'><div className='circle'></div><h3>Hate and Love</h3></div>
+                </div>
+                <div className='list-right'>
+                  <div className='list'><div className='circle'></div><h3>Challenges and Polls</h3></div>
+                  <div className='list'><div className='circle'></div><h3>Nominations & Evictions</h3></div>
+                  <div className='list'><div className='circle'></div><h3>Drama and Showmance</h3></div>
+                  <div className='list'><div className='circle'></div><h3>Anonymous Players</h3></div>
+                  <div className='list'><div className='circle'></div><h3>Outrageous Characters</h3></div>
+                </div>
               </div>
+              <button onClick={() => this.redirectToSubscribe()}> Enroll Now for FREE!</button>
             </div>
-            <button onClick={() => this.redirectToSubscribe()}> Enroll Now for FREE!</button>
-          </div>
-          <div className='section-2-right'>
-            <img src={images.path.girl} alt='' />
+            <div className='section-2-right'>
+              <img src={images.path.girl} alt='' />
+            </div>
           </div>
         </div>
         <div className='section-3'>
@@ -189,60 +195,64 @@ class LandingPage extends Component {
           </div>
         </div>
         <div className='section-4'>
-          <div className='section-4-heading'>
-            <h1>Participate in the <span id='black'>world's</span> first reality social network that pays you to be popular! </h1>
-          </div>
-          <div className='section-4-middle'>
-            <div className='section-4-content'>
-              <div className='users'>
-                <div className='user-content'>
-                  <div className='user-details'>
-                    <h4>Enroll in a game</h4>
-                    <h6>All players are strangers coming from all walks of life, interacting with one another exclusively through social media platform called TheReality.Social (TRS). Be anyone or say anything. There are no boundaries.</h6>
-                  </div>
-                </div>
-                <div className='user-content'>
-                  <div className='user-details'>
-                    <h4>Decide your gameplay</h4>
-                    <h6>Send public messages in the Main Chat to increase your popularity among the audience watching 24/7 live stream and to form friendships with fellow players. Use private messages to form alliances, plan and plot your next moves. You can adopt any persona you wish to propel yourself through the competition.</h6>
-                  </div>
-                </div>
-                <div className='user-content'>
-                  <div className='user-details'>
-                    <h4>Earn money playing games</h4>
-                    <h6>The aim of the game is to survive till the final day of the 7-day game to win TRS dollars which can be converted to real money when it reaches the threshold.</h6>
-                  </div>
-                </div>
-                <div className='user-content'>
-                  <div className='user-details'>
-                    <h4>Inspired by popular reality TV concepts</h4>
-                    <h6>TheReality.Social is an online social experiment game based on popular reality TV concept. Players are made to choose between head and heart, beliefs and conditioning are tested while players have the freedom to say anything as they are given a choice to be anonymous.</h6>
-                  </div>
-                </div>
-                <button onClick={() => this.redirectToSubscribe()}>Play Now</button>
-              </div>
+          <div className='container'>
+            <div className='section-4-heading'>
+              <h1>Participate in the <span id='black'>world's</span> first reality social network that pays you to be popular! </h1>
             </div>
-            <div className='section-4-cup'>
-              <img src={images.path.cup} alt='' />
+            <div className='section-4-middle'>
+              <div className='section-4-content'>
+                <div className='users'>
+                  <div className='user-content'>
+                    <div className='user-details'>
+                      <h4>Enroll in a game</h4>
+                      <h6>All players are strangers coming from all walks of life, interacting with one another exclusively through social media platform called TheReality.Social (TRS). Be anyone or say anything. There are no boundaries.</h6>
+                    </div>
+                  </div>
+                  <div className='user-content'>
+                    <div className='user-details'>
+                      <h4>Decide your gameplay</h4>
+                      <h6>Send public messages in the Main Chat to increase your popularity among the audience watching 24/7 live stream and to form friendships with fellow players. Use private messages to form alliances, plan and plot your next moves. You can adopt any persona you wish to propel yourself through the competition.</h6>
+                    </div>
+                  </div>
+                  <div className='user-content'>
+                    <div className='user-details'>
+                      <h4>Earn money playing games</h4>
+                      <h6>The aim of the game is to survive till the final day of the 7-day game to win TRS dollars which can be converted to real money when it reaches the threshold.</h6>
+                    </div>
+                  </div>
+                  <div className='user-content'>
+                    <div className='user-details'>
+                      <h4>Inspired by popular reality TV concepts</h4>
+                      <h6>TheReality.Social is an online social experiment game based on popular reality TV concept. Players are made to choose between head and heart, beliefs and conditioning are tested while players have the freedom to say anything as they are given a choice to be anonymous.</h6>
+                    </div>
+                  </div>
+                  <button onClick={() => this.redirectToSubscribe()}>Play Now</button>
+                </div>
+              </div>
+              <div className='section-4-cup'>
+                <img src={images.path.cup} alt='' />
+              </div>
             </div>
           </div>
         </div>
         <div className='section-5'>
-          <div className='section-5-left'>
-            <div className='section-5-heading'>
-              <h1>About <span id='black'>us</span></h1>
-            </div>
-            <div className='section-5-content'>
-              <p>
-                There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.
+          <div className='container'>
+            <div className='section-5-left'>
+              <div className='section-5-heading'>
+                <h1>About <span id='black'>us</span></h1>
+              </div>
+              <div className='section-5-content'>
+                <p>
+                  There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.
               </p>
-              <p>
-                There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.
+                <p>
+                  There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.
               </p>
+              </div>
             </div>
-          </div>
-          <div className='section-5-right'>
+            <div className='section-5-right'>
 
+            </div>
           </div>
         </div>
         <div className='section-6' id='subscribe'>
@@ -292,7 +302,6 @@ class LandingPage extends Component {
             </div>
           </div>
         </div>
-      </div>
       </div>
     );
   }
