@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import './LandingPage.scss';
 import axios from 'axios';
 import images from '../../images'
-import ProfileImage from '../../components/ProfileImage';
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 import _ from 'lodash';
 
 //Custom Utility Fn
-import { validateEmail } from '../../utils/Validators'
+import Validator from '../../utils/Validator'
 
 
 class LandingPage extends Component {
@@ -37,7 +36,7 @@ class LandingPage extends Component {
     // Validating Form
     let isValid = true;
     if (id === 'email') {
-      let test = validateEmail(value)
+      let test = Validator.validateEmail(value)
       if (value === '') {
         this.setState({
           emailValidation: 'Email Should not be empty*'
@@ -110,6 +109,7 @@ class LandingPage extends Component {
   }
   render() {
     return (
+      <div>
       <div className='wrapper'>
         <div className='section-1'>
           <div className='left-part'>
@@ -292,6 +292,7 @@ class LandingPage extends Component {
             </div>
           </div>
         </div>
+      </div>
       </div>
     );
   }

@@ -152,8 +152,42 @@ p {
     color: #d4145a;
 }
 
-@media only screen and (max-width: 786px){
-    .sideBar-slider,.reality-brief{
-        display: none;
+@media only screen and (max-width: 786px) {
+    h1{
+        font-size: 28px;
+     }
+    h3{
+        font-size: 24px;
+     }
+  .sideBar-slider,
+  .reality-brief {
+    display: none;
+  }
+  .signUp-container {
+    .signUp-field {
+     background-size: 100% 100%;
+      width: 100%;
     }
+  }
+  .field-details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75% !important;
+    margin-top: 35% !important;
+    padding-left: 30px !important;
+  .name-field,.mail-field,.password-field{
+   margin-bottom: 15px;
+   width: 100%;
+    }
+  }
+  .register-btn{
+    width: 100%;
+  }
+}
+@media only screen  and (max-width: 480px) {
+  .field-details {
+    margin-top: 25% !important;
+    padding-left: 24px !important;
+  }
 }
