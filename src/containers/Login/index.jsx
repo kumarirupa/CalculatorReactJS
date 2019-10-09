@@ -75,7 +75,7 @@ export class Login extends React.Component {
               </div>
               <div className="redirect-signup">
                 <p className="need-text">Need an account?</p>
-                <Link to="/registration" id="click-signin">Sign UP</Link>
+                <Link to="/register" id="click-signin">Sign UP</Link>
               </div>
             </div>
           </div>
