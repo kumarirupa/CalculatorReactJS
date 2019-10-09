@@ -46,24 +46,7 @@ export class Registration extends React.Component {
     this.submitUserData = this.submitUserData.bind(this);
   }
 
-  componentDidUpdate = () => {
-    const { registrationError, registrationResponse } = this.props;
-    if (registrationError === true) {
-      Swal.fire({
-        title: 'Error!',
-        text: registrationResponse || `Something went Wrong`,
-        type: 'error',
-        confirmButtonText: 'Okay'
-      })
-    } else if (registrationError === false) {
-      Swal.fire({
-        title: 'Success',
-        text: registrationResponse,
-        type: 'success',
-        confirmButtonText: 'Okay'
-      })
-    }
-  }
+
 
   handleChange = evt => {
     // Handling value changes on Input and updating state likewise
