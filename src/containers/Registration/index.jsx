@@ -132,15 +132,15 @@ export class Registration extends React.Component {
               </div>
               <div className="name-field">
                 <input id="name" name="name" placeholder="Full Name" type="text" onChange={this.handleChange} value={this.state.name} />
-                <p>{this.state.nameMessage}</p>
+                <p className="errormsg">{this.state.nameMessage}</p>
               </div>
               <div className="mail-field">
                 <input id="email" name="email" placeholder="Email Id" type="text" onChange={this.handleChange} value={this.state.email} />
-                <p>{this.state.emailMessage}</p>
+                <p className="errormsg">{this.state.emailMessage}</p>
               </div>
               <div className="password-field">
                 <input id="password" name="password" placeholder="Password" type="password" onChange={this.handleChange} value={this.state.password} />
-                <p>{this.state.passwordMessage}</p>
+                <p className="errormsg">{this.state.passwordMessage}</p>
               </div>
               <div className="termsConditrion"><input type="checkbox" className="check-terms" name="sameadr"></input><p className="terms-context">I hereby agree all<span className="changeTerms"> terms and conditions</span></p></div>
               <div className="register-btn">

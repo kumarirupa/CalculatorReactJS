@@ -76,7 +76,6 @@ input {
   width: 100%;
   padding-bottom: 5px;
 }
-
 .exp-text {
   display: flex !important;
   justify-content: center;
@@ -117,6 +116,10 @@ input {
   color: #ffffff;
   font-size: 18px;
 }
+.errormsg{
+  position: absolute;
+  top: 10px;
+}
 .reality-people {
   color: #ffffff;
 }
@@ -135,12 +138,15 @@ input {
 }
 .name-field {
   margin-bottom: 24px;
+  position: relative;
 }
 .mail-field {
   margin-bottom: 24px;
+  position: relative;
 }
 .password-field {
   margin-bottom: 5px;
+  position: relative;
 }
 
 #click-login {
@@ -155,7 +161,7 @@ input {
 
 @media only screen and (max-width: 786px) {
   h1 {
-    font-size: 28px;
+    font-size: 27px;
   }
   h3 {
     font-size: 24px;
@@ -174,8 +180,9 @@ input {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-top: 10% !important;
     width: 75% !important;
-    margin-top: 35% !important;
+    margin-top: 20% !important;
     padding-left: 30px !important;
     .name-field,
     .mail-field,
@@ -188,9 +195,13 @@ input {
     width: 100%;
   }
 }
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width:320px) {
   .field-details {
     margin-top: 25% !important;
     padding-left: 24px !important;
+    padding-top: 0% !important;
+  }
+  .eye-img{
+    width: 60%;
   }
 }

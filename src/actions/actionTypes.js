@@ -6,3 +6,10 @@ export const RESET_DATA = 'RESET_DATA';
 export const SET_USER_DATA = 'SET_USER_DATA';
 export const SET_REGISTERING_USER = 'SET_REGISTERING_USER';
 
+// Login Page
+export const SET_LOGIN_DATA = 'SET_LOGIN_DATA';
+export const SET_LOGGING_USER = 'SET_LOGGING_USER'; 
+
+//User Details Page
+export const GET_USER_DATA = 'GET_USER_DATA';
+export const GETTING_USER_DETAILS = 'GETTING_USER_DETAILS';
