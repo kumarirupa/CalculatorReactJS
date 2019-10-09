@@ -14,8 +14,8 @@ class UserDetails extends Component {
     render() {
         return (
             <div className='user-details-section'>
-                <div className='user'>
-                    <ProfileImage imgSrc={images.path.sampleProfile} size='4x0px' />
+                <a href='/dashboard'><div className='user'>
+                    <ProfileImage imgSrc={images.path.sampleProfile} size='40px' />
                     <div className='user-detail'>
                         <div className='user-status'>
                             <div className='square'></div><h6>Available</h6>
@@ -23,8 +23,8 @@ class UserDetails extends Component {
                         <div className='user-name'>
                             <h5>User Name</h5>
                         </div>
-                    </div>
-                </div>
+                    </div> 
+                </div></a>
                 <div className='message-details'>
                     <div className='unreads-main'>
                         <div className='unreads'>

@@ -1,0 +1,57 @@
+@import "../../variable.scss";
+
+.dashboard {
+  .container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    .header {
+      border: 1px solid black;
+      .user {
+        display: flex;
+        padding: 20px;
+        .profile-img {
+          img {
+            border-radius: 0px;
+            margin-top: 0px;
+          }
+        }
+        .user-detail {
+          margin-left: 20px;
+          h5,
+          h6 {
+            color: black;
+            font-weight: bold;
+            margin: 0px;
+          }
+          .user-status {
+            display: flex;
+            margin-bottom: 10px;
+            .square {
+              width: 10px;
+              height: 10px;
+              margin-right: 5px;
+              margin-top: 1px;
+              background: #06bd12;
+            }
+          }
+        }
+      }
+    }
+    .actions{
+        border: 1px solid black;
+        width:20%;
+        float: left;
+        display: flex;
+        flex-direction: column;
+        a{
+            text-decoration: none;
+            color: black;
+        }
+    }
+    .content{
+        width: 80%;
+        float: left;
+    }
+  }
+}

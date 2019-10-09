@@ -1,5 +1,3 @@
-
-
 import {
     SET_USER_DATA,
     SET_REGISTERING_USER,

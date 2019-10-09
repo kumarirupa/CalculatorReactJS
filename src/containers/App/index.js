@@ -13,6 +13,7 @@ import Login from "../Login/Loadable";
 import Registration from "../Registration/Loadable";
 import Chat from "../Chat";
 import LandingPage from "../LandingPage";
+import Dashboard from '../Dashboard'
 import Notfound from "../NotFound";
 
 const store = configureStore({});
@@ -28,6 +29,7 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/chat" component={Chat} />
           <Route path="/register" component={Registration} />
+          <Route path="/dashboard" component={Dashboard} />
           <Route component={Notfound} />
         </Switch>
       </Router>
