@@ -5,6 +5,7 @@ import { Link, Route } from "react-router-dom";
 import './Dashboard.scss'
 
 //Components
+import MyProfile from '../../components/MyProfileForm';
 import ProfileImage from '../../components/ProfileImage';
 
 //Constants
@@ -18,9 +19,9 @@ class Dashboard extends Component {
         }
     }
     render() {
-        const SubView = ({ match }) => (
+        const SubView1 = ({ match }) => (
             <div>
-                <h3>Section:{match.params.sectionName}</h3>
+                <h3>Logout</h3>
             </div>
         );
         console.log('rahul', this.props)
@@ -48,7 +49,8 @@ class Dashboard extends Component {
                         <Link to={`${match.url}/logout`}>Logout</Link>
                     </div>
                     <div className='content'>
-                        <Route path={`${match.url}/:sectionName`} component={SubView} />
+                    <Route path={`${match.url}/profile`} component={MyProfile} />
+                    <Route path={`${match.url}/logout`} component={SubView1} />
                     </div>
                 </div>
             </div>

@@ -38,20 +38,23 @@
         }
       }
     }
-    .actions{
-        border: 1px solid black;
-        width:20%;
-        float: left;
-        display: flex;
-        flex-direction: column;
-        a{
-            text-decoration: none;
-            color: black;
-        }
+    .actions {
+      border: 1px solid black;
+      max-width: 300px;
+      float: left;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      a {
+        text-decoration: none;
+        color: black;
+        margin: 10px 0px 10px 0px;
+      }
     }
-    .content{
-        width: 80%;
-        float: left;
+    .content {
+      width: 687px;
+      float: left;
+      padding: 30px;
     }
   }
 }

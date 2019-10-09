@@ -1,4 +1,4 @@
-@import "../../variables.scss";
+@import "../../variable.scss";
 
 
 .tsg-btn{
@@ -14,7 +14,7 @@
     font-size: 12px;
     font-weight: 600;
     padding: 4px 10px;
-    background-color:$tomato;
+    background-color:$primary-color;
     opacity: 1;
     transition: opacity 0.2s linear;
     float: left;
