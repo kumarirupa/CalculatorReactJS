@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+//Stylesheets
 import './EditableProfile.scss';
 
 //Components
@@ -8,9 +11,13 @@ import TButton from '../../../components/TButton';
 //Constants
 import images from '../../../images';
 
+//Actions
+import { getUserDetails, updateUserDetails } from '../../Dashboard/action';
+
 //Utility Libraries
 import _ from 'lodash';
 import Validator from '../../../utils/Validator';
+import Swal from 'sweetalert2';
 
 
 class EditableProfile extends Component {
@@ -35,7 +42,39 @@ class EditableProfile extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.formValidaton = this.formValidaton.bind(this);
         this.updateUserData = this.updateUserData.bind(this);
+
+        this.getUserData();
     }
+
+    getUserData = async () => {
+      try {
+          let getUserDetails = await this.props.getUserDetails();
+          this.setState({
+            firstName: getUserDetails.result.firstName,
+            lastName: getUserDetails.result.lastName,
+            email: getUserDetails.result.email,
+            displayName: getUserDetails.result.displayName,
+            gender: getUserDetails.result.gender,
+            language: getUserDetails.result.language
+          })
+      } catch (err) {
+          if (err.response)
+              Swal.fire({
+                  title: 'Error',
+                  text: err.response.data.message,
+                  type: 'error',
+                  confirmButtonText: 'Okay'
+              })
+          else {
+              Swal.fire({
+                  title: 'Error',
+                  text: `Something went Wrong`,
+                  type: 'error',
+                  confirmButtonText: 'Okay'
+              })
+          }
+      }
+  }
 
     handleChange = evt => {
         // Handling value changes on Input and updating state likewise
@@ -95,7 +134,7 @@ class EditableProfile extends Component {
         return validated && dataCheck ? true : false;
       }
     
-      updateUserData = () => {
+      updateUserData = async () => {
         //Updating Data to Server, from the respective variables
     
         if (this.isFormValid()) {
@@ -104,19 +143,46 @@ class EditableProfile extends Component {
             firstName: this.state.firstname,
             lastName: this.state.lastname,
             email: this.state.email,
-            gender: 'male',
-            displayName: 'Test',
-            language: 'EN'
+            gender: this.state.gender,
+            displayName: this.state.displayName,
+            language: this.state.language
           };
-          this.props.updateUser(userData);
+          
+          try{
+            let updateUserResponse = await this.props.updateUserDetails(userData);
+            console.log('Paul Success ~>',updateUserResponse)
+            Swal.fire({
+                  title: 'Success',
+                  text: updateUserResponse.message,
+                  type: 'success',
+                  confirmButtonText: 'Okay'
+                })
+          }catch(err){
+            console.log('Paul Error ~>',err.response.data.message)
+            if(err.response)
+            Swal.fire({
+                  title: 'Error',
+                  text: err.response.data.message,
+                  type: 'error',
+                  confirmButtonText: 'Okay'
+                })
+                else{
+                  Swal.fire({
+                    title: 'Error',
+                    text: `Something went Wrong`,
+                    type: 'error',
+                    confirmButtonText: 'Okay'
+                  })
+                }
+          }
         }
       }
-    
 
     render() {
         return (
             <div className='editable-profile'>
                 <div className="profile-section">
+                {this.props.gettingUserDetails  ? <img id='loader' src={images.path.circularLoader} alt='' /> :<div>
                     <div className="profile-header">
                         <div className="profile-header">
                             <ProfileImage imgSrc={images.path.sampleProfile} size='80px' />
@@ -175,11 +241,11 @@ class EditableProfile extends Component {
                             </div>
                             <div id="btn-section">
                                 <div className="desc">
-                                    <TButton disabled={!this.isFormValid()} id='edit-btn' onClick={this.updateUserData} text={`UPDATE`} />
+                                    <TButton id='edit-btn' onClick={this.updateUserData} text={`UPDATE`} />
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div></div>}
                 </div>
             </div>
         );
@@ -187,4 +253,10 @@ class EditableProfile extends Component {
     }
 }
 
-export default EditableProfile;
+
+function mapStateToProps(state) {
+  return {
+      ...state.DashboardReducer
+  };
+}
+export default connect(mapStateToProps, { getUserDetails, updateUserDetails })(EditableProfile);

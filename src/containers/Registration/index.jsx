@@ -41,7 +41,7 @@ export class Registration extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.formValidaton = this.formValidaton.bind(this);
     this.submitUserData = this.submitUserData.bind(this);
-    console.log('Paul props',this.props)
+    console.log('Paul props', this.props)
   }
 
   handleChange = evt => {
@@ -87,7 +87,7 @@ export class Registration extends React.Component {
     const dataCheck = !_.isEmpty(name && password && email);
     return validated && dataCheck ? true : false;
   }
- submitUserData = async () => {
+  submitUserData = async () => {
     //Submitting Data to Server, from the respective variables
 
     if (this.isFormValid()) {
@@ -102,8 +102,34 @@ export class Registration extends React.Component {
         displayName: 'Test',
         language: 'EN'
       };
-      let registerUserResponse=await this.props.registerUser(userData);
-      console.log('Paul =>', registerUserResponse);
+      
+      try{
+        let registerUserResponse = await this.props.registerUser(userData);
+        console.log('Paul Success ~>',registerUserResponse)
+        Swal.fire({
+              title: 'Success',
+              text: registerUserResponse.message,
+              type: 'success',
+              confirmButtonText: 'Okay'
+            })
+      }catch(err){
+        console.log('Paul Error ~>',err.response.data.message)
+        if(err.response)
+        Swal.fire({
+              title: 'Error',
+              text: err.response.data.message,
+              type: 'error',
+              confirmButtonText: 'Okay'
+            })
+            else{
+              Swal.fire({
+                title: 'Error',
+                text: `Something went Wrong`,
+                type: 'error',
+                confirmButtonText: 'Okay'
+              })
+            }
+      }
     }
   }
 
@@ -147,11 +173,11 @@ export class Registration extends React.Component {
               </div>
             </div>
           </div>
-​
+
           <div className="reality-brief">
             <div className="opacEye-img">
               <div className="exp-text">
-​
+
                 <div className="reality-details">
                   <h2 >{messages.messages['JA'].tagLine}</h2>
                 </div>
@@ -163,7 +189,7 @@ export class Registration extends React.Component {
               </div>
             </div>
           </div>
-​
+
           <div className="sideBar-slider">
             <img className="slider-img" src={images.path.rightSlideArrow} alt="arrow" />
           </div>
@@ -179,4 +205,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { registerUser})(Registration);
+export default connect(mapStateToProps, { registerUser })(Registration);

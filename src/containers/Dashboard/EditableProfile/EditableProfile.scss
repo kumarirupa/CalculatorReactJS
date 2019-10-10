@@ -3,17 +3,24 @@
 .editable-profile {
   .profile-section {
     padding: 10px 20px 20px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    #loader {
+      width: 100px;
+      margin-top: 100px;
+    }
     .profile-header {
       .profile-header {
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
-        #camera{
+        #camera {
           width: 20px;
           position: absolute;
           bottom: -10px;
-          right: 43%;;
+          right: 33%;
         }
       }
     }

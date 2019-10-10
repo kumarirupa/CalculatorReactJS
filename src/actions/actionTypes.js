@@ -10,6 +10,8 @@ export const SET_REGISTERING_USER = 'SET_REGISTERING_USER';
 export const SET_LOGIN_DATA = 'SET_LOGIN_DATA';
 export const SET_LOGGING_USER = 'SET_LOGGING_USER'; 
 
-//User Details Page
+//Dashboard Page
 export const GET_USER_DATA = 'GET_USER_DATA';
 export const GETTING_USER_DETAILS = 'GETTING_USER_DETAILS';
+export const UPDATE_USER_DATA = 'UPDATE_USER_DATA';
+export const UPDATING_USER_DATA = 'UPDATING_USER_DATA';

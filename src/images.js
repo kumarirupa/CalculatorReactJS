@@ -11,6 +11,7 @@ const path = {
 
     //Loaders
     linearLoader: require('./images/loaders/ellipsis-loader.svg'),
+    circularLoader: require('./images/loaders/circular-loader.svg'),
 
 
     //Chat Page Icons 

@@ -2,6 +2,8 @@ import _ from 'lodash';
 import {
     GET_USER_DATA,
     GETTING_USER_DETAILS,
+    UPDATE_USER_DATA,
+    UPDATING_USER_DATA,
     SET_RESPONSE,
     RESET_DATA
 } from '../../actions/actionTypes';
@@ -10,9 +12,11 @@ import {
 let defaultState = {
     //Response Data
     userDetails: null,
+    updateUser: null,
 
     //Loading Operations
     gettingUserDetails: false,
+    updatingUserDetails: false,
 
     //Error or Success Detection
     Error: null,
@@ -33,6 +37,14 @@ const DashboardReducer = (state = defaultState, action) => {
 
         case GETTING_USER_DETAILS:
             _state.gettingUserDetails = action.payload;
+            return _state;
+
+        case UPDATE_USER_DATA:
+            _state.updateUser = action.payload;
+            return _state;
+
+        case UPDATING_USER_DATA:
+            _state.updatingUserDetails = action.payload;
             return _state;
 
         case SET_RESPONSE:
