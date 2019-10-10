@@ -1,18 +1,35 @@
-import React from 'react';
-import './EditableProfile.scss';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+
+//Stylesheets
+import './MyProfileForm.scss';
+
+//Actions
+import { getUserDetails } from '../../Dashboard/action';
 
 //Components
-import ProfileImage from '../../components/ProfileImage';
-import TButton from '../TButton';
+import ProfileImage from '../../../components/ProfileImage';
+import TButton from '../../../components/TButton';
 
 //Constants
-import images from '../../images';
+import images from '../../../images';
 
 
-const EditableProfile = (props) => {
-    const { match } = props;
-    return (
-        <div className='editable-profile'>
+
+class MyProfileForm extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+        }
+    }
+    componentWillMount(){
+        let getUserDetails= this.props.getUserDetails();
+        console.log('Rahul get user',getUserDetails)
+    }
+
+    render() {
+        return (
             <div className="profile-section">
                 <div className="profile-header">
                     <div className="profile-header">
@@ -23,7 +40,7 @@ const EditableProfile = (props) => {
                     <div className='details'>
                         <div className="details-block">
                             <div className="title">First Name:</div>
-                            <div className="desc"><input type='text' /></div>
+                            <div className="desc">{'Rahul'}</div>
                         </div>
                         <div className="details-block">
                             <div className="title">Last Name:</div>
@@ -47,15 +64,23 @@ const EditableProfile = (props) => {
                         </div>
                         <div id="btn-section">
                             <div className="desc">
-                            <TButton id='edit-btn' onClick={() => { }} text={`UPDATE`} />
+                                <TButton id='edit-btn' onClick={() => {
+                                    this.props.history.push('/dashboard/edit')
+                                }}
+                                    text={`EDIT`} />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    );
+        );
 
+    }
 }
 
-export default EditableProfile;
+function mapStateToProps(state) {
+    return {
+      ...state.DashboardReducer
+    };
+  }
+export default connect(mapStateToProps, { getUserDetails })(MyProfileForm);

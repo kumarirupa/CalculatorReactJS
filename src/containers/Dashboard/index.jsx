@@ -5,8 +5,8 @@ import { Link, Route } from "react-router-dom";
 import './Dashboard.scss'
 
 //Components
-import MyProfile from '../../components/MyProfileForm';
-import EditableProfile from '../../components/EditableProfile';
+import MyProfile from './MyProfileForm/Loadable';
+import EditableProfile from './EditableProfile/Loadable';
 import ProfileImage from '../../components/ProfileImage';
 
 //Constants

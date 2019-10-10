@@ -9,5 +9,5 @@ export const REGISTER_USER = `${baseURL}/register`;
 
 export const LOGIN_USER = `${baseURL}/login`;
 
-export const USER_DETAILS = `${baseURL}/register`;
+export const USER_DETAILS = `${baseURL}/userDetails`;
 

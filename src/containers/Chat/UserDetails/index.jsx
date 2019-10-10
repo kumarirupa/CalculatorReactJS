@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import ProfileImage from '../../components/ProfileImage';
-import images from '../../images';
+import ProfileImage from '../../../components/ProfileImage';
+import images from '../../../images';
 
 class UserDetails extends Component {
     constructor(props) {

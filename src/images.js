@@ -44,6 +44,7 @@ const path = {
      wp:require('./images/whatsapp.png'),
      twitter:require('./images/twitter.png'),
      fb:require('./images/fb.png'),
+     camera:require('./images/camera.png')
 
 };
 

@@ -23,7 +23,7 @@ let defaultState = {
 };
 
 
-const userDetailsReducer = (state = defaultState, action) => {
+const DashboardReducer = (state = defaultState, action) => {
     let _state = _.cloneDeep(state);
 
     switch (action.type) {
@@ -49,6 +49,6 @@ const userDetailsReducer = (state = defaultState, action) => {
 
 };
 
-export default userDetailsReducer;
+export default DashboardReducer;
 
 

@@ -20,12 +20,9 @@ import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Validator from '../../utils/Validator';
 
-
-
 export class Registration extends React.Component {
   constructor(props) {
     super(props);
-
     //Initializing States
     this.state = {
       name: '',
@@ -44,9 +41,8 @@ export class Registration extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.formValidaton = this.formValidaton.bind(this);
     this.submitUserData = this.submitUserData.bind(this);
+    console.log('Paul props',this.props)
   }
-
-
 
   handleChange = evt => {
     // Handling value changes on Input and updating state likewise
@@ -91,8 +87,7 @@ export class Registration extends React.Component {
     const dataCheck = !_.isEmpty(name && password && email);
     return validated && dataCheck ? true : false;
   }
-
-  submitUserData = () => {
+ submitUserData = async () => {
     //Submitting Data to Server, from the respective variables
 
     if (this.isFormValid()) {
@@ -107,7 +102,8 @@ export class Registration extends React.Component {
         displayName: 'Test',
         language: 'EN'
       };
-      this.props.registerUser(userData);
+      let registerUserResponse=await this.props.registerUser(userData);
+      console.log('Paul =>', registerUserResponse);
     }
   }
 
@@ -132,15 +128,15 @@ export class Registration extends React.Component {
               </div>
               <div className="name-field">
                 <input id="name" name="name" placeholder="Full Name" type="text" onChange={this.handleChange} value={this.state.name} />
-                <p className="errormsg">{this.state.nameMessage}</p>
+                <p>{this.state.nameMessage}</p>
               </div>
               <div className="mail-field">
                 <input id="email" name="email" placeholder="Email Id" type="text" onChange={this.handleChange} value={this.state.email} />
-                <p className="errormsg">{this.state.emailMessage}</p>
+                <p>{this.state.emailMessage}</p>
               </div>
               <div className="password-field">
                 <input id="password" name="password" placeholder="Password" type="password" onChange={this.handleChange} value={this.state.password} />
-                <p className="errormsg">{this.state.passwordMessage}</p>
+                <p>{this.state.passwordMessage}</p>
               </div>
               <div className="termsConditrion"><input type="checkbox" className="check-terms" name="sameadr"></input><p className="terms-context">I hereby agree all<span className="changeTerms"> terms and conditions</span></p></div>
               <div className="register-btn">
@@ -151,11 +147,11 @@ export class Registration extends React.Component {
               </div>
             </div>
           </div>
-
+​
           <div className="reality-brief">
             <div className="opacEye-img">
               <div className="exp-text">
-
+​
                 <div className="reality-details">
                   <h2 >{messages.messages['JA'].tagLine}</h2>
                 </div>
@@ -167,7 +163,7 @@ export class Registration extends React.Component {
               </div>
             </div>
           </div>
-
+​
           <div className="sideBar-slider">
             <img className="slider-img" src={images.path.rightSlideArrow} alt="arrow" />
           </div>
@@ -177,12 +173,10 @@ export class Registration extends React.Component {
   }
 }
 
-
 function mapStateToProps(state) {
   return {
     ...state.registrationReducer
   };
 }
 
-
-export default connect(mapStateToProps, { registerUser })(Registration);
+export default connect(mapStateToProps, { registerUser})(Registration);

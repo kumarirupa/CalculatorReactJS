@@ -1,4 +1,4 @@
-@import "../../variable.scss";
+@import "../../../variable.scss";
 
 .editable-profile {
   .profile-section {
@@ -8,6 +8,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
+        #camera{
+          width: 20px;
+          position: absolute;
+          bottom: -10px;
+          right: 43%;;
+        }
       }
     }
     .details-section {
@@ -20,6 +27,8 @@
         .details-block {
           display: flex;
           flex-direction: row;
+          align-items: baseline;
+          position: relative;
           padding-top: 10px;
           padding-bottom: 10px;
           .title {
@@ -31,8 +40,18 @@
           .desc {
             text-align: left;
             font-size: 11px;
-            input{
+            input {
               outline: none;
+              width: 100%;
+              max-width: 300px;
+              padding: 5px;
+            }
+            .errormsg {
+              width: 100%;
+              position: absolute;
+              top: 30px;
+              color: red;
+              font-size: 11px;
             }
           }
         }
