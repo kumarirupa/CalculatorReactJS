@@ -23,11 +23,8 @@ class Privacy extends Component {
 
     searchUser() {
         console.log("search name")
-        let libraries = this.state.arrayCard,
-        searchString = this.state.searchString.trim().toLowerCase();
-        console.log("store string",searchString)
-        let libraries = this.state.arrayCard,
-        searchString = this.state.searchString.trim().toLowerCase();
+        let libraries = this.state.arrayCard;
+        const searchString = this.state.searchString.trim().toLowerCase();
         console.log("store string", searchString)
         if (searchString.length > 0) {
             libraries = libraries.filter(function (i) {
@@ -35,16 +32,16 @@ class Privacy extends Component {
             });
         }
         this.setState({arrayCard:libraries})
-            if (libraries.length > 0) {
-                this.setState({
-                    dropdown:true,
-                    libraries: libraries
-                })
-            } else {
-                this.setState({
-                    dropdown:false,
-                    libraries:null
+        if (libraries.length > 0) {
+            this.setState({
+                dropdown:true,
+                libraries: libraries
             })
+        } else {
+            this.setState({
+                dropdown:false,
+                libraries:null
+            });
         }
     }
 
