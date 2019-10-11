@@ -14,20 +14,20 @@ class ChatSectionTop extends Component {
                 <h1>#Lorem Ipsum</h1>
                 <div className='channel-meta'>
                     <div className='channel-star'>
-                        <img src={images.path.star} />
+                        <img  alt={""}  src={images.path.star} />
                     </div>
                     <div className='channel-member'>
-                        <img src={images.path.setting} /> 10
+                        <img  alt={""}  src={images.path.setting} /> 10
                             </div>
                     <div className='channel-details'>
                         <h5>Lorem Lorem lorem lorem</h5>
                     </div>
                     <div className='channel-settings'>
-                        <img src={images.path.setting} />
+                        <img alt={""} src={images.path.setting} />
                     </div>
                 </div>
                 <div className='chat-search'>
-                    <img src={images.path.search} />
+                    <img  alt={""} src={images.path.search} />
                     <input type='text' placeholder='search' />
                 </div>
             </div>
