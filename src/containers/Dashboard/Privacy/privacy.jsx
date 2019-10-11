@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Switch from "react-switch";
+import Select from 'react-select';
 import './privacy.scss';
 
 import images from '../../../images';
@@ -106,15 +107,15 @@ class Privacy extends Component {
     render() {
         const { dropdown, libraries } = this.state
         return (
-            <div className='privacy'>
+            <div id='privacy'>
                 <div className='privacy-details'>
                     <div className="online-status">
                         <label>ONLINE STATUS</label>
                         <Switch onChange={(value) => this.setUserOnlineSatus(value)} checked={this.state.onlineVisibility} />
                     </div>
                     <div class="search-blockUser">
-                        <input className="search-field" type="text" value={this.state.searchString} onChange={this.handleChange} onKeyUp={this.searchUser} placeholder="Search.." name="searchString" />
-                        {console.log("search Text")}
+                      <input className="search-field" type="text" value={this.state.searchString} onChange={this.handleChange} onKeyUp={this.searchUser} placeholder="Search.." name="searchString" />
+                       
                         {dropdown ?
                         <ul className="searchList">
                             {
