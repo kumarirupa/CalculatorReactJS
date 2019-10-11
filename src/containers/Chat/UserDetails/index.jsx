@@ -82,6 +82,12 @@ class UserDetails extends Component {
         this.setState({ userArray: tempUserArray });
     }
 
+    removeUser(index){
+        let tempUserArray = this.state.userArray
+        tempUserArray.splice(index,1)
+        this.setState({ userArray: tempUserArray });
+    }
+
 
     render() {
         return (
@@ -167,11 +173,11 @@ class UserDetails extends Component {
                             />
                         </div>
                         <div className='user-list'>
-                            {this.state.userArray.map((user) => {
+                            {this.state.userArray.map((user,index) => {
                                 return(
                                 <div className='user-box'>
                                     <h4>{user.label}</h4>
-                                    <img alt='' src={images.path.setting} />
+                                    <i onClick={(index)=>this.removeUser(index)} class="fa fa-close"></i>
                                 </div>
                                 )
                             })}

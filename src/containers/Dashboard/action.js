@@ -15,7 +15,7 @@ import CookieStorage from './../../utils/cookie-storage';
 import messages from './../../messages/language/index';
 const language = CookieStorage.getCookie('language');
 
-const CONSTANTS = messages.messages[language];
+const CONSTANTS = messages.messages[(language===null || language==='' || language===undefined) ? 'EN' : language];
 console.log(CONSTANTS);
 
 export const getUserDetails = userData => dispatch =>{

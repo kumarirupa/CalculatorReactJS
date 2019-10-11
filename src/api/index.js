@@ -3,7 +3,7 @@
  */
 
 
-const baseURL = process.env && process.env.PROD_URL ? `${process.env.PROD_URL}/` : 'http://d041b498.ngrok.io';
+const baseURL = process.env && process.env.PROD_URL ? `${process.env.PROD_URL}/` : 'http://13.233.204.63:4000';
 
 export const REGISTER_USER = `${baseURL}/register`;
 
