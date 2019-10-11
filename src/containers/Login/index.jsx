@@ -19,6 +19,7 @@ import './Login.scss';
 import { Helmet } from 'react-helmet';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import Validator from '../../utils/Validator';
 
 export class Login extends React.Component {
@@ -76,15 +77,37 @@ export class Login extends React.Component {
     const dataCheck = !_.isEmpty( password && email);
     return validated && dataCheck ? true : false;
   }
-  loginUserData = () => {
+
+  loginUserData = async () => {
     //Submitting Data to Server, from the respective variables
+
     if (this.isFormValid()) {
       //Checking if the data is valid before sending to Server
       const userData = {
         email: this.state.email,
         password: this.state.password,
-      };
-      this.props.loginUser(userData);
+      };      
+      try{
+        let loginUserResponse = await this.props.loginUser(userData);
+        console.log('Paul Success ~>',loginUserResponse)
+        this.props.history.push('/chat');
+      }catch(err){
+        if(err.response)
+        Swal.fire({
+              title: 'Error',
+              text: err.response.data.message,
+              type: 'error',
+              confirmButtonText: 'Okay'
+            })
+            else{
+              Swal.fire({
+                title: 'Error',
+                text: `Something went Wrong`,
+                type: 'error',
+                confirmButtonText: 'Okay'
+              })
+            }
+      }
     }
   }
   render() {

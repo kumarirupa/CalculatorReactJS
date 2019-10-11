@@ -47,12 +47,11 @@ class Dashboard extends Component {
                         <Link to={`${match.url}/profile`}>Profile </Link>
                         <Link to={`${match.url}/changePassword`}>Change Password</Link>
                         <Link to={`${match.url}/privacy`}>Privacy</Link>
-                        <Link to={`${match.url}/logout`}>Logout</Link>
+                        <Link to={`/login`}>Logout</Link>
                     </div>
                     <div className='content'>
                     <Route path={`${match.url}/profile`} component={MyProfile} />
                     <Route path={`/dashboard/edit`} component={EditableProfile} />
-                    <Route path={`${match.url}/logout`} component={SubView1} />
                     </div>
                 </div>
             </div>

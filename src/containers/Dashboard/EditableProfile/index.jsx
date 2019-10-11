@@ -211,7 +211,7 @@ class EditableProfile extends Component {
                                 <div className="title">Email:</div>
                                 <div className="desc">
                                     <input type='text' name='email' placeholder='Email '
-                                        onChange={this.handleChange} value={this.state.email} />
+                                        onChange={this.handleChange} value={this.state.email} readOnly/>
                                         <p className="errormsg">{this.state.emailMessage}</p>
                                 </div>
                             </div>
@@ -219,7 +219,7 @@ class EditableProfile extends Component {
                                 <div className="title">Dislay Name:</div>
                                 <div className="desc">
                                     <input type='text' name='displayName' placeholder='Display Name'
-                                        onChange={this.handleChange} value={this.state.displayName} />
+                                        onChange={this.handleChange} value={this.state.displayName} readOnly />
                                         <p className="errormsg">{this.state.displayNameMessage}</p>
                                 </div>
                             </div>

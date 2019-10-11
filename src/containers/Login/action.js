@@ -9,24 +9,25 @@ import {
 import { LOGIN_USER } from '../../api'
 import APIService from "../../services/APIServices";
 
-export const loginUser = userData => {
+export const loginUser = userData => dispatch => {
     console.log('USerdata recvd paul', userData);
-    return dispatch => {
+    return new Promise((resolve, reject) => {
         dispatch(loginLoader(true));
-        APIService('POST', LOGIN_USER, userData, function (err, res) {
+        APIService("POST", LOGIN_USER, userData, function (err, res) {
             if (err) {
                 dispatch(setResponse(true, err));
                 dispatch(loginLoader(false));
+                reject(err);
             } else {
-               document.cookie = `Authorization = Bearer ${res.data.result.token}`;
+                document.cookie = `Authorization = Bearer ${res.data.result.token}`;
                 dispatch(loggedinUser(res.data.result));
                 dispatch(setResponse(false, res.data.message));
                 dispatch(loginLoader(false));
+                resolve(res.data);
             }
-        })
-    };
+        });
+    });
 }
-
 
 const loggedinUser = payload => {
     return {
