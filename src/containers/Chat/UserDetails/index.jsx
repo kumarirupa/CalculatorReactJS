@@ -18,16 +18,18 @@ class UserDetails extends Component {
         super(props);
         this.state = {
             sampleArray: [1, 2, 3, 4, 5],
+            userArray:[{value:'', label:''}],
             channelName:'',
             selectedOption: null,
             show: false,
 
         }
+        this.handleChange=this.handleChange.bind(this);
     }
 
 
-    handleChange = (selectedOption, eve) => {
-        this.setState({ selectedOption});
+    handleChange = val => {
+        this.setState({channelName : val});
     };
 
     render() {
@@ -101,23 +103,22 @@ class UserDetails extends Component {
                     <Modal.Body>
                         <div className='channel-name'>
                             <label>Name </label>
-                            <input id='name' name='channel' value={this.state.channelName} type='text' placeholder='Channel Name' />
+                            <input id='name' name='channel' value={this.state.channelName} onChange={(event)=>this.handleChange(event.target.value)} type='text' placeholder='Channel Name' />
+                        </div>
+                        <div className='select-user'>
+                            <label>Add People </label>
+                            <Select id="company"
+                                placeholder='Add team mates'
+                                onChange={this.handleChange}
+                                options={options}
+                                noOptionsMessage={() => `Type Something`}
+                            />
                         </div>
                         <div className='user-list'>
                             <div className='user-box'>
                                 <h4>Rahul</h4>
                                 <img alt='' src={images.path.setting}/>
                             </div>
-                        </div>
-                        <div className='select-user'>
-                            <label>Add People </label>
-                            <Select id="company"
-                                placeholder='Add team mates'
-                                value={this.state.selectedOption}
-                                onChange={this.handleChange}
-                                options={options}
-                                noOptionsMessage={() => `Type Something`}
-                            />
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
