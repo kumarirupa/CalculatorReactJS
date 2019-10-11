@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ProfileImage from '../../../components/ProfileImage';
+import './UserDetails.scss'
 import images from '../../../images';
+import Modal from 'react-bootstrap-modal';
 
 class UserDetails extends Component {
     constructor(props) {
@@ -9,6 +11,7 @@ class UserDetails extends Component {
             sampleArray: [1, 2, 3, 4, 5],
             showChannelList: false,
             showDirectMessageList: false,
+            show: false
         }
     }
     render() {
@@ -23,7 +26,7 @@ class UserDetails extends Component {
                         <div className='user-name'>
                             <h5>User Name</h5>
                         </div>
-                    </div> 
+                    </div>
                 </div></a>
                 <div className='message-details'>
                     <div className='unreads-main'>
@@ -43,9 +46,9 @@ class UserDetails extends Component {
                 </div>
                 <div className='channels-main'>
                     <h6>CHANNELS</h6>
-                    <img onClick={() => this.setState({ showChannelList: !this.state.showChannelList })} src={images.path.plus} />
+                    <img onClick={() => this.setState({ show: true })} src={images.path.plus} />
                 </div>
-                {this.state.showChannelList ? this.state.sampleArray.map((ele, index) => {
+                {this.state.sampleArray.map((ele, index) => {
                     return (
                         <div className='channels'>
                             <ul>
@@ -53,12 +56,12 @@ class UserDetails extends Component {
                             </ul>
                         </div>
                     )
-                }) : ''}
+                })}
                 <div className='direct-messages-main'>
                     <h6>DIRECT MESSAGES</h6>
                     <img onClick={() => this.setState({ showDirectMessageList: !this.state.showDirectMessageList })} src={images.path.plus} />
                 </div>
-                {this.state.showDirectMessageList ? this.state.sampleArray.map((ele, index) => {
+                {this.state.sampleArray.map((ele, index) => {
                     return (
                         <div className='direct-messages'>
                             <ul>
@@ -66,7 +69,26 @@ class UserDetails extends Component {
                             </ul>
                         </div>
                     )
-                }) : ''}
+                })}
+
+                <Modal
+                    id='addChannel'
+                    size="lg"
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                    style={{display: 'block'}}
+                    show={this.state.show}
+                >
+                    <Modal.Header>
+                        <Modal.Title>Add Channel</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Hiii
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <button onClick={() => { this.setState({ show: false }) }}>Close</button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         )
     }
