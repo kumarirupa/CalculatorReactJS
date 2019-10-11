@@ -1,6 +1,6 @@
 import { EN } from './EN';
 import { DE } from './DE';
-import { JA } from './JA';
+import { JP } from './JP';
 
-const messages = { EN, DE, JA };
+const messages = { EN, DE, JP };
 export default { messages };
