@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import Switch from "react-switch";
 import './privacy.scss';
 
-
-
-//Constants
 import images from '../../../images';
-
 
 class Privacy extends Component {
     constructor(props) {
@@ -22,37 +18,40 @@ class Privacy extends Component {
     }
     
     handleChange = evt => {
-        console.log("check event", evt)
-        // Handling value changes on Input and updating state likewise
         this.setState({ [evt.target.name]: evt.target.value });
     }
+
     searchUser() {
         console.log("search name")
-       let libraries = this.state.arrayCard,
-         searchString = this.state.searchString.trim().toLowerCase();
-         console.log("store string",searchString)
+        let libraries = this.state.arrayCard,
+        searchString = this.state.searchString.trim().toLowerCase();
+        console.log("store string",searchString)
+        let libraries = this.state.arrayCard,
+        searchString = this.state.searchString.trim().toLowerCase();
+        console.log("store string", searchString)
         if (searchString.length > 0) {
             libraries = libraries.filter(function (i) {
                 return i.name.toLowerCase().match(searchString);
             });
         }
         this.setState({arrayCard:libraries})
-            if(libraries.length>0)
-             this.setState({
-                 dropdown:true,
-                 libraries: libraries
+            if (libraries.length > 0) {
+                this.setState({
+                    dropdown:true,
+                    libraries: libraries
+                })
+            } else {
+                this.setState({
+                    dropdown:false,
+                    libraries:null
+            })
+        }
+    }
 
-             })
-     else {
-         this.setState({
-             dropdown:false,
-            libraries:null
-         })
-     }
-}
-        render(){
-            let {dropdown,libraries}=this.state
-            return (
+    render() {
+        let {dropdown,libraries}=this.state
+        return (
+            <div className='privacy'>
                 <div className='privacy-details'>
                     <div className="online-status">
                         <label>ONLINE STATUS</label>
@@ -85,8 +84,9 @@ class Privacy extends Component {
                         })}
                     </div>
                 </div>
-            )
-        }
+            </div>
+        )
     }
+}
 
-    export default Privacy;
+export default Privacy;

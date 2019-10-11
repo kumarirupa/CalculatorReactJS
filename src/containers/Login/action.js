@@ -1,5 +1,3 @@
-
-
 import {
     SET_LOGIN_DATA,
     SET_LOGGING_USER,
@@ -8,25 +6,26 @@ import {
 } from '../../actions/actionTypes';
 import { LOGIN_USER } from '../../api'
 import APIService from "../../services/APIServices";
+import CookieStorage from './../../utils/cookie-storage';
 
-export const loginUser = userData => {
-    console.log('USerdata recvd paul', userData);
-    return dispatch => {
+export const loginUser = userData => dispatch => {
+    return new Promise((resolve, reject) => {
         dispatch(loginLoader(true));
-        APIService('POST', LOGIN_USER, userData, function (err, res) {
+        APIService("POST", LOGIN_USER, userData, function (err, res) {
             if (err) {
                 dispatch(setResponse(true, err));
                 dispatch(loginLoader(false));
+                reject(err);
             } else {
-               document.cookie = `Authorization = Bearer ${res.data.result.token}`;
+                CookieStorage.createCookie('Authorization', `Bearer ${res.data.result.token}`, 10);
                 dispatch(loggedinUser(res.data.result));
                 dispatch(setResponse(false, res.data.message));
                 dispatch(loginLoader(false));
+                resolve(res.data);
             }
-        })
-    };
+        });
+    });
 }
-
 
 const loggedinUser = payload => {
     return {

@@ -19,6 +19,7 @@ import './Login.scss';
 import { Helmet } from 'react-helmet';
 import _ from 'lodash';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import Validator from '../../utils/Validator';
 
 export class Login extends React.Component {
@@ -32,7 +33,6 @@ export class Login extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
 
-    //Binding methods
     this.handleChange = this.handleChange.bind(this);
     this.formValidaton = this.formValidaton.bind(this);
     this.loginUserData = this.loginUserData.bind(this);
@@ -40,7 +40,6 @@ export class Login extends React.Component {
  
   handleChange = evt => {
     console.log("change evnt")
-    // Handling value changes on Input and updating state likewise
     this.setState({ [evt.target.name]: evt.target.value });
     this.formValidaton(evt);
   }
@@ -48,7 +47,6 @@ export class Login extends React.Component {
 
   formValidaton = evt => {
     console.log("mail msg")
-    // Validating values from Input
     const name= evt.target.name;
     const value = evt.target.value;
     let msg = ``;
@@ -68,25 +66,43 @@ export class Login extends React.Component {
       }
     }
   }
-    isFormValid = () => {
-    //Checks if all the Validations are correct and Data is present in the required fields
-    //Return a boolean
+  
+  isFormValid = () => {
     const { emailMessage, passwordMessage, password, email } = this.state;
     const validated = _.isEmpty( emailMessage || passwordMessage);
     const dataCheck = !_.isEmpty( password && email);
     return validated && dataCheck ? true : false;
   }
-  loginUserData = () => {
-    //Submitting Data to Server, from the respective variables
+
+  loginUserData = async () => {
     if (this.isFormValid()) {
-      //Checking if the data is valid before sending to Server
       const userData = {
         email: this.state.email,
         password: this.state.password,
-      };
-      this.props.loginUser(userData);
+      };      
+      try {
+        let loginUserResponse = await this.props.loginUser(userData);
+        this.props.history.push('/chat');
+      } catch(err) {
+        if(err.response)
+          Swal.fire({
+            title: 'Error',
+            text: err.response.data.message,
+            type: 'error',
+            confirmButtonText: 'Okay'
+          })
+        else {
+          Swal.fire({
+            title: 'Error',
+            text: `Something went Wrong`,
+            type: 'error',
+            confirmButtonText: 'Okay'
+          })
+        }
+      }
     }
   }
+  
   render() {
     return (
     <div>
@@ -109,19 +125,19 @@ export class Login extends React.Component {
           <div className="signIn-field">
             <div className="loginfield-details">
               <div className="signIn-logo">
-                <img class="eye-img" src={images.path.realityLogoSm} alt="eye" />
+                <img className="eye-img" src={images.path.realityLogoSm} alt="eye" />
               </div>
               <div className="signIn-heading">
                 <h1>The Reality Social</h1>
                 <h3>Sign In</h3>
               </div>
-              <div class="mail-field">
+              <div className="mail-field">
               <input id="email" name="email" placeholder="Email Id" type="text" onChange={this.handleChange} value={this.state.email} />
-               <p class="error-msg">{this.state.emailMessage}</p>
+               <p className="error-msg">{this.state.emailMessage}</p>
               </div>
-              <div class="passSignin-field">
+              <div className="passSignin-field">
               <input id="password" name="password" placeholder="Password" type="password" onChange={this.handleChange} value={this.state.password} />
-                <p class="error-msg">{this.state.passwordMessage}</p>
+                <p className="error-msg">{this.state.passwordMessage}</p>
               </div>
               <div className="register-btn">
                 <button className="signin-btn" onClick={this.loginUserData}>Get Started</button>
@@ -133,7 +149,7 @@ export class Login extends React.Component {
             </div>
           </div>
           <div className="signIn-slider">
-            <img class="slider-img" src={images.path.leftSlideArrow} alt="arrow" />
+            <img className="slider-img" src={images.path.leftSlideArrow} alt="arrow" />
           </div>
         </div>
       </div>
