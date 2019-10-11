@@ -13,3 +13,6 @@ export const USER_DETAILS = `${baseURL}/userDetails`;
 
 export const UPDATE_USER_DETAILS = `${baseURL}/userDetails`;
 
+export const GET_USER_PRIVACY_STATUS = `${baseURL}/getUserPrivacyStatus`;
+
+export const SET_USER_PRIVACY_STATUS =  `${baseURL}/setPrivacyStatus`;
