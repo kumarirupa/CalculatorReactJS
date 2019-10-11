@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { Link, Route } from "react-router-dom";
 
-//Stylesheet
+
 import './Dashboard.scss'
 
-//Components
+
 import MyProfile from './MyProfileForm/Loadable';
 import EditableProfile from './EditableProfile/Loadable';
 import ProfileImage from '../../components/ProfileImage';
 import Privacy from './Privacy/privacy';
 
-//Constants
+
 import images from '../../images';
 
 

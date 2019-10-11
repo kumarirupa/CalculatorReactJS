@@ -45,6 +45,24 @@ export const updateUserDetails = userData => dispatch =>{
         });
 }
 
+export const getUserStatus = userData => dispatch =>{
+    return  new Promise((resolve,reject)=>{
+                dispatch(updateUserLoader(true));
+                    APIService("GET", UPDATE_USER_DETAILS, userData, function(err, res) {
+                    if (err) {
+                        dispatch(setResponse(true, err));
+                        dispatch(updateUserLoader(false));
+                        reject(err);
+                    } else {
+                        dispatch(updateUser(res.data.result));
+                        dispatch(setResponse(false, res.data.message));
+                        dispatch(updateUserLoader(false));
+                        resolve(res.data);
+                    }
+                });
+        });
+}
+
 const userDetails = payload => {
     return {
         type: GET_USER_DATA,

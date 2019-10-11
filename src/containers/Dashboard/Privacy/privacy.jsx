@@ -15,11 +15,12 @@ class Privacy extends Component {
             checked: false,
             arrayCard: [{ name: "james" }, { name: "preeti" }, { name: "pari" }],
             searchString: '',
+            dropdown: '',
         };
         this.handleChange = this.handleChange.bind(this);
         this.searchUser = this.searchUser.bind(this);
     }
-
+    
     handleChange = evt => {
         console.log("check event", evt)
         // Handling value changes on Input and updating state likewise
@@ -28,7 +29,7 @@ class Privacy extends Component {
     searchUser() {
         console.log("search name")
        let libraries = this.state.arrayCard,
-         searchString = this.state. searchString.trim().toLowerCase();
+         searchString = this.state.searchString.trim().toLowerCase();
          console.log("store string",searchString)
         if (searchString.length > 0) {
             libraries = libraries.filter(function (i) {
@@ -36,20 +37,21 @@ class Privacy extends Component {
             });
         }
         this.setState({arrayCard:libraries})
-    }
+            if(libraries.length>0)
+             this.setState({
+                 dropdown:true,
+                 libraries: libraries
 
-    listOfSuggestion = () =>{
-   
-        return(
-            this.state.arrayCard.map( ele =>{
-        <li>ele</li>
-            })
-        )
-    }
-
-
+             })
+     else {
+         this.setState({
+             dropdown:false,
+            libraries:null
+         })
+     }
+}
         render(){
-            this.state.dropDown?this.listOfSuggestion():null
+            let {dropdown,libraries}=this.state
             return (
                 <div className='privacy-details'>
                     <div className="online-status">
@@ -57,8 +59,20 @@ class Privacy extends Component {
                         <Switch onChange={(value) => this.setState({ checked: value })} checked={this.state.checked} />
                     </div>
                     <div class="search-blockUser">
-                        <input type="text" value={this.state.searchString} onChange={this.handleChange} onKeyUp={this.searchUser} placeholder="Search.." name="searchString" />
+                        <input className="search-field" type="text" value={this.state.searchString} onChange={this.handleChange} onKeyUp={this.searchUser} placeholder="Search.." name="searchString" />
                         {console.log("search Text")}
+                        {dropdown ?
+                        <ul className="searchList">
+                            {
+                                libraries.map((suggestion, index) => {
+                                    console.log("suggetion",suggestion)
+                                   return (
+                                       <li key={index} className="listName" onClick={() => alert(suggestion.name)}>{suggestion.name}</li>
+                                   )
+                                })
+                            }
+                        </ul>
+                        : ''}
                     </div>
                     <div className="blockUser-display">
                         {this.state.arrayCard.map((i) => {
