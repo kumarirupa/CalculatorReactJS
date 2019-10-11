@@ -18,6 +18,12 @@ class UserDetails extends Component {
             sampleArray: [1, 2, 3, 4, 5],
             userArray: [],
             channelName: '',
+            showChannelList: false,
+            showDirectMessageList: false,
+            show: false,
+            show2: false,
+            userArray:[],
+            channelName:'',
             selectedOption: null,
             show: false,
             userList: [],
@@ -122,7 +128,7 @@ class UserDetails extends Component {
                 })}
                 <div className='direct-messages-main'>
                     <h6>DIRECT MESSAGES</h6>
-                    <img onClick={() => this.setState({ showDirectMessageList: !this.state.showDirectMessageList })} src={images.path.plus} />
+                    <img onClick={() => this.setState({ show2: true })} src={images.path.plus} />
                 </div>
                 {this.state.sampleArray.map((ele, index) => {
                     return (
@@ -139,7 +145,6 @@ class UserDetails extends Component {
                     size="lg"
                     aria-labelledby="contained-modal-title-vcenter"
                     centered
-                    style={{ display: 'block' }}
                     show={this.state.show}
                 >
                     <Modal.Header>
@@ -176,6 +181,43 @@ class UserDetails extends Component {
                         <button id="create" onClick={() => { }}>Create</button>
                         <button id="close" onClick={() => { this.setState({ show: false }) }}>Close</button>
                     </Modal.Footer>
+                </Modal>
+
+
+
+
+
+                <Modal
+                    className='directMessage'
+                    size="lg"
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                    show={this.state.show2}
+                >
+                    <Modal.Header>
+                        <Modal.Title>
+                            
+                            <div>
+                            Direct Messages
+                            <button class="btn" onClick={()=>{ this.setState({ show2: false }) }}><i class="fa fa-close"></i></button>
+                            </div>
+                            
+                        </Modal.Title>
+                        
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className ='dm-search-bar-main'>
+                            <Select className = "dm-search-bar"
+                                    placeholder='Search...'
+                                    onInputChange={(value)=> { this.usernameChange(value) }}
+                                    onChange={(value)=> { console.log(value) }}
+                                    options={this.state.userList}
+                                    value={this.state.selectedOption}
+                                    noOptionsMessage={() => `Loading...`}
+                                />
+                            <button className="go-button">Go</button>
+                        </div>
+                    </Modal.Body>
                 </Modal>
             </div>
         )
