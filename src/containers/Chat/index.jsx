@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './Chat.scss';
-import Header from '../../components/Header';
-import UserDetails from '../../components/UserDetails';
-import ChatSection from '../../components/ChatSection';
+import Header from './Header';
+import UserDetails from './UserDetails';
+import ChatSection from './ChatSection';
 
 
 class Chat extends Component {

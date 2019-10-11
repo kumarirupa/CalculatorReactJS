@@ -20,12 +20,9 @@ import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Validator from '../../utils/Validator';
 
-
-
 export class Registration extends React.Component {
   constructor(props) {
     super(props);
-
     //Initializing States
     this.state = {
       name: '',
@@ -44,9 +41,8 @@ export class Registration extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.formValidaton = this.formValidaton.bind(this);
     this.submitUserData = this.submitUserData.bind(this);
+    console.log('Paul props', this.props)
   }
-
-
 
   handleChange = evt => {
     // Handling value changes on Input and updating state likewise
@@ -91,8 +87,7 @@ export class Registration extends React.Component {
     const dataCheck = !_.isEmpty(name && password && email);
     return validated && dataCheck ? true : false;
   }
-
-  submitUserData = () => {
+  submitUserData = async () => {
     //Submitting Data to Server, from the respective variables
 
     if (this.isFormValid()) {
@@ -107,7 +102,34 @@ export class Registration extends React.Component {
         displayName: 'Test',
         language: 'EN'
       };
-      this.props.registerUser(userData);
+      
+      try{
+        let registerUserResponse = await this.props.registerUser(userData);
+        console.log('Paul Success ~>',registerUserResponse)
+        Swal.fire({
+              title: 'Success',
+              text: registerUserResponse.message,
+              type: 'success',
+              confirmButtonText: 'Okay'
+            })
+      }catch(err){
+        console.log('Paul Error ~>',err.response.data.message)
+        if(err.response)
+        Swal.fire({
+              title: 'Error',
+              text: err.response.data.message,
+              type: 'error',
+              confirmButtonText: 'Okay'
+            })
+            else{
+              Swal.fire({
+                title: 'Error',
+                text: `Something went Wrong`,
+                type: 'error',
+                confirmButtonText: 'Okay'
+              })
+            }
+      }
     }
   }
 
@@ -177,12 +199,10 @@ export class Registration extends React.Component {
   }
 }
 
-
 function mapStateToProps(state) {
   return {
     ...state.registrationReducer
   };
 }
-
 
 export default connect(mapStateToProps, { registerUser })(Registration);

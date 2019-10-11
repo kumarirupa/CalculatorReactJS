@@ -5,7 +5,8 @@ import { Link, Route } from "react-router-dom";
 import './Dashboard.scss'
 
 //Components
-import MyProfile from '../../components/MyProfileForm';
+import MyProfile from './MyProfileForm/Loadable';
+import EditableProfile from './EditableProfile/Loadable';
 import ProfileImage from '../../components/ProfileImage';
 import Privacy from './Privacy/privacy';
 
@@ -21,13 +22,13 @@ class Dashboard extends Component {
         }
     }
     render() {
+        console.log('rahul', this.props)
+        const { match } = this.props;
         const SubView1 = ({ match }) => (
             <div>
                 <h3>Logout</h3>
             </div>
         );
-        console.log('rahul', this.props)
-        const { match } = this.props;
         return (
             <div className='dashboard'>
                 <div className='container'>
@@ -52,6 +53,7 @@ class Dashboard extends Component {
                     </div>
                     <div className='content'>
                     <Route path={`${match.url}/profile`} component={MyProfile} />
+                    <Route path={`/dashboard/edit`} component={EditableProfile} />
                     <Route path={`${match.url}/logout`} component={SubView1} />
                     <Route path={`${match.url}/privacy`} component={Privacy}/>
                     </div>

@@ -7,23 +7,24 @@ import {
 import { REGISTER_USER } from '../../api'
 import APIService from "../../services/APIServices";
 
-export const registerUser = userData => {
+export const registerUser = userData => dispatch =>{
     console.log('USerdata recvd paul', userData);
-    return dispatch => {
-        dispatch(registrationLoader(true));
-        APIService('POST', REGISTER_USER, userData, function (err, res) {
-            if (err) {
-                dispatch(setResponse(true, err));
-                dispatch(registrationLoader(false));
-            } else {
-                dispatch(registeredUser(res.data.result));
-                dispatch(setResponse(false, res.data.message));
-                dispatch(registrationLoader(false));
-            }
-        })
-    };
+    return  new Promise((resolve,reject)=>{
+                dispatch(registrationLoader(true));
+                    APIService("POST", REGISTER_USER, userData, function(err, res) {
+                    if (err) {
+                        dispatch(setResponse(true, err));
+                        dispatch(registrationLoader(false));
+                        reject(err);
+                    } else {
+                        dispatch(registeredUser(res.data.result));
+                        dispatch(setResponse(false, res.data.message));
+                        dispatch(registrationLoader(false));
+                        resolve(res.data);
+                    }
+                });
+        });
 }
-
 
 const registeredUser = payload => {
     return {

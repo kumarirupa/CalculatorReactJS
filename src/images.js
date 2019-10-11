@@ -11,6 +11,7 @@ const path = {
 
     //Loaders
     linearLoader: require('./images/loaders/ellipsis-loader.svg'),
+    circularLoader: require('./images/loaders/circular-loader.svg'),
 
 
     //Chat Page Icons 
@@ -44,6 +45,7 @@ const path = {
      wp:require('./images/whatsapp.png'),
      twitter:require('./images/twitter.png'),
      fb:require('./images/fb.png'),
+     camera:require('./images/camera.png')
 
 };
 
