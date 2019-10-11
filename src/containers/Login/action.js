@@ -18,6 +18,7 @@ export const loginUser = userData => dispatch => {
                 reject(err);
             } else {
                 CookieStorage.createCookie('Authorization', `Bearer ${res.data.result.token}`, 10);
+                CookieStorage.createCookie('language', `${res.data.result.language}`, 10);
                 dispatch(loggedinUser(res.data.result));
                 dispatch(setResponse(false, res.data.message));
                 dispatch(loginLoader(false));

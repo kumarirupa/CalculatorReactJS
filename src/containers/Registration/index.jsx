@@ -179,7 +179,7 @@ export class Registration extends React.Component {
               <div className="exp-text">
 
                 <div className="reality-details">
-                  <h2 >{messages.messages['JA'].tagLine}</h2>
+                  <h2 >{messages.messages['JP'].tagLine}</h2>
                 </div>
                 <div className="reality-people">
                   <p className="exp-text">Real People</p>
