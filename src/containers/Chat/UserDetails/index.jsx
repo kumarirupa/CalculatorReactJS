@@ -3,17 +3,33 @@ import ProfileImage from '../../../components/ProfileImage';
 import './UserDetails.scss'
 import images from '../../../images';
 import Modal from 'react-bootstrap-modal';
+import Select from 'react-select';
+
+
+const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' },
+];
+
 
 class UserDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
             sampleArray: [1, 2, 3, 4, 5],
-            showChannelList: false,
-            showDirectMessageList: false,
-            show: false
+            channelName:'',
+            selectedOption: null,
+            show: false,
+
         }
     }
+
+
+    handleChange = (selectedOption, eve) => {
+        this.setState({ selectedOption});
+    };
+
     render() {
         return (
             <div className='user-details-section'>
@@ -83,10 +99,29 @@ class UserDetails extends Component {
                         <Modal.Title><h3>Create a Channel</h3></Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Hiii
+                        <div className='channel-name'>
+                            <label>Name </label>
+                            <input id='name' name='channel' value={this.state.channelName} type='text' placeholder='Channel Name' />
+                        </div>
+                        <div className='user-list'>
+                            <div className='user-box'>
+                                <h4>Rahul</h4>
+                                <img alt='' src={images.path.setting}/>
+                            </div>
+                        </div>
+                        <div className='select-user'>
+                            <label>Add People </label>
+                            <Select id="company"
+                                placeholder='Add team mates'
+                                value={this.state.selectedOption}
+                                onChange={this.handleChange}
+                                options={options}
+                                noOptionsMessage={() => `Type Something`}
+                            />
+                        </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <button id="create" onClick={()=>{}}>Create</button>
+                        <button id="create" onClick={() => { }}>Create</button>
                         <button id="close" onClick={() => { this.setState({ show: false }) }}>Close</button>
                     </Modal.Footer>
                 </Modal>

@@ -1,23 +1,71 @@
 @import "../../../variable.scss";
 
-.addChannel{
-    display: block;
+.addChannel {
+  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .css-1g48xl4-IndicatorsContainer {
+    display: none;
+  }
+  #create {
+    margin: 10px 20px;
+    color: white;
+    padding: 5px 20px;
+    outline: none;
+    border: none;
+    background: $primary-color;
+  }
+  #close {
+    margin: 10px 10px;
+    color: black;
+    padding: 5px 20px;
+    outline: none;
+    border: none;
+  }
+  .channel-name {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    #create{
-        margin: 10px 20px;
-        color: white;
-        padding: 5px 20px;
-        outline: none;
-        border: none;
-        background: $primary-color;
+    flex-direction: column;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    #name {
+      display: flex;
+      align-items: center;
+      background-color: hsl(0, 0%, 100%);
+      border-color: hsl(0, 0%, 80%);
+      border-radius: 4px;
+      border-style: solid;
+      border-width: 1px;
+      cursor: default;
+      justify-content: space-between;
+      min-height: 38px;
+      outline: 0 !important;
+      position: relative;
+      padding: 8px;
     }
-    #close{
-        margin: 10px 10px;
-        color: black;
-        padding: 5px 20px;
-        outline: none;
-        border: none;
+  }
+  .user-list {
+    margin-bottom: 30px;
+    margin-top: 30px;
+    .user-box {
+      border: 1px solid black;
+      padding: 0px 10px;
+      border-radius: 5px;
+      width: 100px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      h4 {
+        font-size: 12px;
+      }
+      img {
+        height: 20px;
+        width: 20px;
+      }
     }
+  }
+  .select-user {
+    margin-bottom: 30px;
+    margin-top: 30px;
+  }
 }
