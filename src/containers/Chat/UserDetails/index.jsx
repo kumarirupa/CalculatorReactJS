@@ -3,6 +3,15 @@ import ProfileImage from '../../../components/ProfileImage';
 import './UserDetails.scss'
 import images from '../../../images';
 import Modal from 'react-bootstrap-modal';
+import Select from 'react-select';
+
+
+const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' },
+];
+
 
 class UserDetails extends Component {
     constructor(props) {
@@ -12,9 +21,19 @@ class UserDetails extends Component {
             showChannelList: false,
             showDirectMessageList: false,
             show: false,
-            show2: false
+            show2: false,
+            channelName:'',
+            selectedOption: null,
+            show: false,
+
         }
     }
+
+
+    handleChange = (selectedOption, eve) => {
+        this.setState({ selectedOption});
+    };
+
     render() {
         return (
             <div className='user-details-section'>
@@ -73,20 +92,40 @@ class UserDetails extends Component {
                 })}
 
                 <Modal
-                    id='addChannel'
+                    className='addChannel'
                     size="lg"
                     aria-labelledby="contained-modal-title-vcenter"
                     centered
                     show={this.state.show}
                 >
                     <Modal.Header>
-                        <Modal.Title>Add Channel</Modal.Title>
+                        <Modal.Title><h3>Create a Channel</h3></Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        Hiii
+                        <div className='channel-name'>
+                            <label>Name </label>
+                            <input id='name' name='channel' value={this.state.channelName} type='text' placeholder='Channel Name' />
+                        </div>
+                        <div className='user-list'>
+                            <div className='user-box'>
+                                <h4>Rahul</h4>
+                                <img alt='' src={images.path.setting}/>
+                            </div>
+                        </div>
+                        <div className='select-user'>
+                            <label>Add People </label>
+                            <Select id="company"
+                                placeholder='Add team mates'
+                                value={this.state.selectedOption}
+                                onChange={this.handleChange}
+                                options={options}
+                                noOptionsMessage={() => `Type Something`}
+                            />
+                        </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <button onClick={() => { this.setState({ show: false }) }}>Close</button>
+                        <button id="create" onClick={() => { }}>Create</button>
+                        <button id="close" onClick={() => { this.setState({ show: false }) }}>Close</button>
                     </Modal.Footer>
                 </Modal>
 
@@ -99,18 +138,28 @@ class UserDetails extends Component {
                     show={this.state.show2}
                 >
                     <Modal.Header>
-                        <Modal.Title>Direct Messages</Modal.Title>
+                        <Modal.Title>
+                            
+                            <div>
+                            Direct Messages
+                            <button class="btn" onClick={()=>{ this.setState({ show2: false }) }}><i class="fa fa-close"></i></button>
+                            </div>
+                            
+                        </Modal.Title>
+                        
                     </Modal.Header>
                     <Modal.Body>
                         <div className ='dm-search-bar-main'>
-                        <img alt='' src={images.path.search}/>
-                        <input className='dm-search-bar' type="text" name="search" placeholder="Search.."></input>
-                        <button className="go-button">Go</button>
+                            <Select className = "dm-search-bar"
+                                    placeholder='Search...'
+                                    value={this.state.selectedOption}
+                                    onChange={this.handleChange}
+                                    options={options}
+                                    noOptionsMessage={() => `Type Something`}
+                                />
+                            <button className="go-button">Go</button>
                         </div>
                     </Modal.Body>
-                    <Modal.Footer>
-                        <button onClick={() => { this.setState({ show2: false }) }}>Close</button>
-                    </Modal.Footer>
                 </Modal>
             </div>
         )
