@@ -1,3 +1,38 @@
 #addChannel{
     display: block;
 }
+
+.directMessage{
+    display: block;
+    .is-component is-search-datalist{
+        margin: 0 auto;
+    }
+    .is-icon is-search-datalist{
+        width: 50px;
+        height: 50px;
+        margin: 5px;
+        background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiP…MzNS4wOTcsMTAwLjYzMSwyODIuMTM3LDEwMC42MzEsMjE3LjA0MQoKCXoiLz4KCjwvc3ZnPgoK);
+        opacity: .4;
+    }
+    .is-field is-search-datalist{
+        width: 100%;
+    border: 0;
+    color: #2c2c2c;
+    }
+    .go-button{
+        padding: 5px 23px;
+        margin-left: 34px;
+        }    
+    .dm-search-bar{
+        padding: 5px 38px 5px 47px;
+        width: 81%;
+    }
+    .dm-search-bar-main{
+        img{
+            position: absolute;
+            top: 19px;
+            left: 20px;
+        }
+    }
+    
+}

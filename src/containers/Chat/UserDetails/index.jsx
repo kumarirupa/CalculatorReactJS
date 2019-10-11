@@ -11,7 +11,8 @@ class UserDetails extends Component {
             sampleArray: [1, 2, 3, 4, 5],
             showChannelList: false,
             showDirectMessageList: false,
-            show: false
+            show: false,
+            show2: false
         }
     }
     render() {
@@ -59,7 +60,7 @@ class UserDetails extends Component {
                 })}
                 <div className='direct-messages-main'>
                     <h6>DIRECT MESSAGES</h6>
-                    <img onClick={() => this.setState({ showDirectMessageList: !this.state.showDirectMessageList })} src={images.path.plus} />
+                    <img onClick={() => this.setState({ show2: true })} src={images.path.plus} />
                 </div>
                 {this.state.sampleArray.map((ele, index) => {
                     return (
@@ -76,7 +77,6 @@ class UserDetails extends Component {
                     size="lg"
                     aria-labelledby="contained-modal-title-vcenter"
                     centered
-                    style={{display: 'block'}}
                     show={this.state.show}
                 >
                     <Modal.Header>
@@ -87,6 +87,29 @@ class UserDetails extends Component {
                     </Modal.Body>
                     <Modal.Footer>
                         <button onClick={() => { this.setState({ show: false }) }}>Close</button>
+                    </Modal.Footer>
+                </Modal>
+
+
+                <Modal
+                    className='directMessage'
+                    size="lg"
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                    show={this.state.show2}
+                >
+                    <Modal.Header>
+                        <Modal.Title>Direct Messages</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className ='dm-search-bar-main'>
+                        <img alt='' src={images.path.search}/>
+                        <input className='dm-search-bar' type="text" name="search" placeholder="Search.."></input>
+                        <button className="go-button">Go</button>
+                        </div>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <button onClick={() => { this.setState({ show2: false }) }}>Close</button>
                     </Modal.Footer>
                 </Modal>
             </div>
