@@ -8,9 +8,11 @@ import './Dashboard.scss'
 import MyProfile from './MyProfileForm/Loadable';
 import EditableProfile from './EditableProfile/Loadable';
 import ProfileImage from '../../components/ProfileImage';
+import Privacy from './Privacy/privacy';
 
 //Constants
 import images from '../../images';
+
 
 class Dashboard extends Component {
     constructor(props) {
@@ -52,6 +54,7 @@ class Dashboard extends Component {
                     <div className='content'>
                     <Route path={`${match.url}/profile`} component={MyProfile} />
                     <Route path={`/dashboard/edit`} component={EditableProfile} />
+                    <Route path={`${match.url}/privacy`} component={Privacy}/>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,32 @@
+.privacy {
+  .online-status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .blockUser-info {
+    margin-top: 40px;
+    background: aquamarine;
+    width: 30%;
+    height: 30vh;
+  }
+  .user-name {
+    border-top: 1px solid;
+    padding: 9px;
+  }
+  .user-photo {
+    overflow: hidden;
+    width: 206px;
+    height: 140px;
+  }
+  .blockUser-img {
+    object-fit: cover;
+    width: 100%;
+    min-height: 100%;
+  }
+  .blockUser-display {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+}
