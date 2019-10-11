@@ -1,3 +1,23 @@
-#addChannel{
+@import "../../../variable.scss";
+
+.addChannel{
     display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    #create{
+        margin: 10px 20px;
+        color: white;
+        padding: 5px 20px;
+        outline: none;
+        border: none;
+        background: $primary-color;
+    }
+    #close{
+        margin: 10px 10px;
+        color: black;
+        padding: 5px 20px;
+        outline: none;
+        border: none;
+    }
 }

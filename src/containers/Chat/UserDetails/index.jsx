@@ -72,21 +72,22 @@ class UserDetails extends Component {
                 })}
 
                 <Modal
-                    id='addChannel'
+                    className='addChannel'
                     size="lg"
                     aria-labelledby="contained-modal-title-vcenter"
                     centered
-                    style={{display: 'block'}}
+                    style={{ display: 'block' }}
                     show={this.state.show}
                 >
                     <Modal.Header>
-                        <Modal.Title>Add Channel</Modal.Title>
+                        <Modal.Title><h3>Create a Channel</h3></Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         Hiii
                     </Modal.Body>
                     <Modal.Footer>
-                        <button onClick={() => { this.setState({ show: false }) }}>Close</button>
+                        <button id="create" onClick={()=>{}}>Create</button>
+                        <button id="close" onClick={() => { this.setState({ show: false }) }}>Close</button>
                     </Modal.Footer>
                 </Modal>
             </div>
