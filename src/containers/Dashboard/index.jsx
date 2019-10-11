@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import { Link, Route } from "react-router-dom";
 
-//Stylesheet
 import './Dashboard.scss'
 
-//Components
 import MyProfile from './MyProfileForm/Loadable';
 import EditableProfile from './EditableProfile/Loadable';
 import ProfileImage from '../../components/ProfileImage';
 import Privacy from './Privacy/privacy';
 
-//Constants
 import images from '../../images';
-
+import CookieStorage from './../../utils/cookie-storage'
 
 class Dashboard extends Component {
     constructor(props) {
@@ -21,14 +18,16 @@ class Dashboard extends Component {
 
         }
     }
+
+    logout = ($event) => {
+        $event.preventDefault();
+        this.props.history.push('/login');
+        CookieStorage.deleteCookie('Authorization');
+    }
+
     render() {
         console.log('rahul', this.props)
         const { match } = this.props;
-        const SubView1 = ({ match }) => (
-            <div>
-                <h3>Logout</h3>
-            </div>
-        );
         return (
             <div className='dashboard'>
                 <div className='container'>
@@ -49,7 +48,7 @@ class Dashboard extends Component {
                         <Link to={`${match.url}/profile`}>Profile </Link>
                         <Link to={`${match.url}/changePassword`}>Change Password</Link>
                         <Link to={`${match.url}/privacy`}>Privacy</Link>
-                        <Link to={`/login`}>Logout</Link>
+                        <a href="#" onClick={this.logout}>Logout</a>
                     </div>
                     <div className='content'>
                     <Route path={`${match.url}/profile`} component={MyProfile} />
