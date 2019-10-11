@@ -10,35 +10,29 @@ import ProfileImage from '../../../components/ProfileImage';
 import './UserDetails.scss'
 import images from '../../../images';
 
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-];
-
 
 class UserDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
             sampleArray: [1, 2, 3, 4, 5],
-            userArray:[],
-            channelName:'',
+            userArray: [],
+            channelName: '',
             selectedOption: null,
             show: false,
             userList: [],
         }
-        this.handleChange=this.handleChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
 
     handleChange = val => {
-        this.setState({channelName : val});
+        this.setState({ channelName: val });
     };
 
     usernameChange = _.debounce(username => {
         this.searchByUserName(username);
-      }, 800);
+    }, 800);
 
     searchByUserName = async (username) => {
         if (username === null || username === undefined || username === '') {
@@ -69,6 +63,17 @@ class UserDetails extends Component {
                 })
             }
         }
+    }
+
+    setNewArray() {
+        this.setState({ userArray: this.state.userList })
+        console.log('New Array-->>>', this.state.userArray)
+    }
+
+    selectedValue = (selectedOption) => {
+        let tempUserArray = this.state.userArray
+        tempUserArray.push(selectedOption)
+        this.setState({ userArray: tempUserArray });
     }
 
 
@@ -143,24 +148,28 @@ class UserDetails extends Component {
                     <Modal.Body>
                         <div className='channel-name'>
                             <label>Name </label>
-                            <input id='name' name='channel' value={this.state.channelName} onChange={(event)=>this.handleChange(event.target.value)} type='text' placeholder='Channel Name' />
+                            <input id='name' name='channel' value={this.state.channelName} onChange={(event) => this.handleChange(event.target.value)} type='text' placeholder='Channel Name' />
                         </div>
                         <div className='select-user'>
                             <label>Add People </label>
                             <Select id="company"
                                 placeholder='Add team mates'
-                                onInputChange={(value)=> { this.usernameChange(value) }}
-                                onChange={(value)=> { console.log(value) }}
+                                onInputChange={(value) => { this.usernameChange(value) }}
+                                onChange={this.selectedValue}
                                 value={this.state.selectedOption}
                                 options={this.state.userList}
                                 noOptionsMessage={() => `Loading...`}
                             />
                         </div>
                         <div className='user-list'>
-                            <div className='user-box'>
-                                <h4>Rahul</h4>
-                                <img alt='' src={images.path.setting}/>
-                            </div>
+                            {this.state.userArray.map((user) => {
+                                return(
+                                <div className='user-box'>
+                                    <h4>{user.label}</h4>
+                                    <img alt='' src={images.path.setting} />
+                                </div>
+                                )
+                            })}
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
