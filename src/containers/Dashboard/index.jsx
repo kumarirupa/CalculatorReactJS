@@ -7,9 +7,11 @@ import './Dashboard.scss'
 //Components
 import MyProfile from '../../components/MyProfileForm';
 import ProfileImage from '../../components/ProfileImage';
+import Privacy from './Privacy/privacy';
 
 //Constants
 import images from '../../images';
+
 
 class Dashboard extends Component {
     constructor(props) {
@@ -51,6 +53,7 @@ class Dashboard extends Component {
                     <div className='content'>
                     <Route path={`${match.url}/profile`} component={MyProfile} />
                     <Route path={`${match.url}/logout`} component={SubView1} />
+                    <Route path={`${match.url}/privacy`} component={Privacy}/>
                     </div>
                 </div>
             </div>

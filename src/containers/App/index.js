@@ -15,7 +15,6 @@ import Chat from "../Chat";
 import LandingPage from "../LandingPage";
 import Dashboard from '../Dashboard'
 import Notfound from "../NotFound";
-
 const store = configureStore({});
 
 function App() {
