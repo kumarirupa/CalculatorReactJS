@@ -83,6 +83,7 @@ class UserDetails extends Component {
     }
 
     removeUser(index){
+        console.log('index',index)
         let tempUserArray = this.state.userArray
         tempUserArray.splice(index,1)
         this.setState({ userArray: tempUserArray });
@@ -173,11 +174,12 @@ class UserDetails extends Component {
                             />
                         </div>
                         <div className='user-list'>
-                            {this.state.userArray.map((user,index) => {
+                            {this.state.userArray.map((user,i) => {
+                                console.log('new array', this.state.userArray)
                                 return(
                                 <div className='user-box'>
                                     <h4>{user.label}</h4>
-                                    <i onClick={(index)=>this.removeUser(index)} class="fa fa-close"></i>
+                                    <i onClick={(evt)=>this.removeUser(evt.target.id)} id={i} class="fa fa-close"></i>
                                 </div>
                                 )
                             })}

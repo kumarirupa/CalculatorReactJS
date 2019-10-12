@@ -18,3 +18,5 @@ export const GET_USER_PRIVACY_STATUS = `${baseURL}/getUserPrivacyStatus`;
 export const SET_USER_PRIVACY_STATUS =  `${baseURL}/setPrivacyStatus`;
 
 export const SEARCH_USER =  `${baseURL}/searchUser`;
+
+export const CREATE_CHANNEL =  `${baseURL}/createChannel`;

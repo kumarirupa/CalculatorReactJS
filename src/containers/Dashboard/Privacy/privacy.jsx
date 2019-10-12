@@ -10,7 +10,6 @@ import { getUserStatus, setUserStatus} from '../../Dashboard/action';
 
 import messages from './../../../messages/language/index';
 import CookieStorage from './../../../utils/cookie-storage'
-import { async } from 'q';
 
 const language = CookieStorage.getCookie('language');
 const CONSTANTS = messages.messages[language];

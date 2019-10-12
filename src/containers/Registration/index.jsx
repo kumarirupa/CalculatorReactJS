@@ -41,7 +41,6 @@ export class Registration extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.formValidaton = this.formValidaton.bind(this);
     this.submitUserData = this.submitUserData.bind(this);
-    console.log('Paul props', this.props)
   }
 
   handleChange = evt => {
