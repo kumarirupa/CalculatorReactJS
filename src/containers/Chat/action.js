@@ -1,7 +1,9 @@
 import {
-    SEARCHING_USER
+    SEARCHING_USER,
+    CREATING_CHANNEL,
+    GETTING_CHANNEL
 } from '../../actions/actionTypes';
-import { SEARCH_USER } from '../../api'
+import { SEARCH_USER, CREATE_CHANNEL, GET_CHANNEL_LIST } from '../../api'
 import APIService from "../../services/APIServices";
 
 export const searchUserData = username => dispatch =>{
@@ -25,8 +27,37 @@ export const searchUserData = username => dispatch =>{
                         }
                     });
                 }
-                console.log(userList);
                 resolve(userList);
+            }
+        });
+    });
+}
+
+export const createChannel = userData => dispatch =>{
+    return  new Promise((resolve,reject)=>{
+        dispatch(createChannelLoader(true));
+            APIService("POST", CREATE_CHANNEL, userData, function(err, res) {
+            if (err) {
+                dispatch(createChannelLoader(false));
+                reject(err);
+            } else {
+                dispatch(createChannelLoader(false));
+                resolve(res);
+            }
+        });
+    });
+}
+
+export const getChannelList = userData => dispatch => {
+    return  new Promise((resolve,reject)=>{
+        dispatch(getChannelLoader(true));
+            APIService("GET", GET_CHANNEL_LIST, userData , function(err, res) {
+            if (err) {
+                dispatch(getChannelLoader(false));
+                reject(err);
+            } else {
+                dispatch(getChannelLoader(false));
+                resolve(res);
             }
         });
     });
@@ -38,3 +69,18 @@ const searchUserLoader = payload => {
         payload
     };
 }
+
+const createChannelLoader = payload => {
+    return {
+        type: CREATING_CHANNEL,
+        payload
+    };
+}
+
+const getChannelLoader = payload => {
+    return {
+        type: GETTING_CHANNEL,
+        payload
+    };
+}
+

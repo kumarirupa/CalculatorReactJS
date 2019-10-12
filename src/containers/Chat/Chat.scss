@@ -133,6 +133,10 @@
             color: white;
             padding: 0px;
             font-size: 13px;
+            .active{
+              background: white;
+              color:red;
+            }
           }
         }
         .direct-messages-main {

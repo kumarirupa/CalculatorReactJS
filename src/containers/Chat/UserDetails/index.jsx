@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Swal from 'sweetalert2';
 import _ from 'lodash';
 
-import { searchUserData } from '../../Chat/action';
+import { searchUserData, createChannel, getChannelList } from '../../Chat/action';
 import ProfileImage from '../../../components/ProfileImage';
 import './UserDetails.scss'
 import images from '../../../images';
@@ -22,13 +22,15 @@ class UserDetails extends Component {
             showDirectMessageList: false,
             show: false,
             show2: false,
-            userArray:[],
-            channelName:'',
+            userArray: [],
+            channelName: '',
             selectedOption: null,
             show: false,
             userList: [],
+            channelList: []
         }
         this.handleChange = this.handleChange.bind(this);
+        this.getChannelList();
     }
 
 
@@ -36,9 +38,38 @@ class UserDetails extends Component {
         this.setState({ channelName: val });
     };
 
+
+    getChannelList = async () => {
+        try {
+            const channelList = await this.props.getChannelList();
+            console.log('channel list response', channelList)
+            this.setState({
+                channelList: channelList.data.result.channels
+            });
+
+        } catch (err) {
+            if (err.response)
+                Swal.fire({
+                    title: 'Error',
+                    text: err.response.data.message,
+                    type: 'error',
+                    confirmButtonText: 'Okay'
+                })
+            else {
+                Swal.fire({
+                    title: 'Error',
+                    text: `Something went Wrong`,
+                    type: 'error',
+                    confirmButtonText: 'Okay'
+                })
+            }
+        }
+    }
+
     usernameChange = _.debounce(username => {
         this.searchByUserName(username);
     }, 800);
+
 
     searchByUserName = async (username) => {
         if (username === null || username === undefined || username === '') {
@@ -71,9 +102,52 @@ class UserDetails extends Component {
         }
     }
 
-    setNewArray() {
-        this.setState({ userArray: this.state.userList })
-        console.log('New Array-->>>', this.state.userArray)
+
+    isFormValid = () => {
+        const { userArray, channelName } = this.state;
+        const dataCheck = !_.isEmpty(channelName);
+        const validateArray = !_.isEmpty(userArray);
+        const arrayLength = userArray.length > 1 ? true : false;
+        return arrayLength && validateArray && dataCheck ? true : false;
+    }
+
+    createChannel = async () => {
+        if (this.isFormValid()) {
+            const userData = {
+                name: this.state.channelName,
+                members: this.state.userArray.map((ele) => ele.value),
+            };
+            try {
+                const createChannel = await this.props.createChannel(userData);
+                console.log('Create Channel response', createChannel)
+                Swal.fire({
+                    title: 'Success',
+                    text: createChannel.data.message,
+                    type: 'success',
+                    confirmButtonText: 'Okay'
+                })
+                    .then(() => {
+                        this.getChannelList();
+                        this.setState({ show: false })
+                    })
+            } catch (err) {
+                if (err.response)
+                    Swal.fire({
+                        title: 'Error',
+                        text: err.response.data.message,
+                        type: 'error',
+                        confirmButtonText: 'Okay'
+                    })
+                else {
+                    Swal.fire({
+                        title: 'Error',
+                        text: `Something went Wrong`,
+                        type: 'error',
+                        confirmButtonText: 'Okay'
+                    })
+                }
+            }
+        }
     }
 
     selectedValue = (selectedOption) => {
@@ -82,10 +156,9 @@ class UserDetails extends Component {
         this.setState({ userArray: tempUserArray });
     }
 
-    removeUser(index){
-        console.log('index',index)
+    removeUser(index) {
         let tempUserArray = this.state.userArray
-        tempUserArray.splice(index,1)
+        tempUserArray.splice(index, 1)
         this.setState({ userArray: tempUserArray });
     }
 
@@ -124,11 +197,11 @@ class UserDetails extends Component {
                     <h6>CHANNELS</h6>
                     <img onClick={() => this.setState({ show: true })} src={images.path.plus} />
                 </div>
-                {this.state.sampleArray.map((ele, index) => {
+                {this.state.channelList.map((ele) => {
                     return (
                         <div className='channels'>
                             <ul>
-                                <li>#design</li>
+                                <li className='list'>{ele.name}</li>
                             </ul>
                         </div>
                     )
@@ -174,19 +247,19 @@ class UserDetails extends Component {
                             />
                         </div>
                         <div className='user-list'>
-                            {this.state.userArray.map((user,i) => {
+                            {this.state.userArray.map((user, i) => {
                                 console.log('new array', this.state.userArray)
-                                return(
-                                <div className='user-box'>
-                                    <h4>{user.label}</h4>
-                                    <i onClick={(evt)=>this.removeUser(evt.target.id)} id={i} class="fa fa-close"></i>
-                                </div>
+                                return (
+                                    <div className='user-box'>
+                                        <h4>{user.label}</h4>
+                                        <i onClick={(evt) => this.removeUser(evt.target.id)} id={i} class="fa fa-close"></i>
+                                    </div>
                                 )
                             })}
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        <button id="create" onClick={() => { }}>Create</button>
+                        <button id="create" onClick={() => this.createChannel()}>Create</button>
                         <button id="close" onClick={() => { this.setState({ show: false }) }}>Close</button>
                     </Modal.Footer>
                 </Modal>
@@ -204,25 +277,25 @@ class UserDetails extends Component {
                 >
                     <Modal.Header>
                         <Modal.Title>
-                            
+
                             <div>
-                            Direct Messages
-                            <button class="btn" onClick={()=>{ this.setState({ show2: false }) }}><i class="fa fa-close"></i></button>
+                                Direct Messages
+                            <button class="btn" onClick={() => { this.setState({ show2: false }) }}><i class="fa fa-close"></i></button>
                             </div>
-                            
+
                         </Modal.Title>
-                        
+
                     </Modal.Header>
                     <Modal.Body>
-                        <div className ='dm-search-bar-main'>
-                            <Select className = "dm-search-bar"
-                                    placeholder='Search...'
-                                    onInputChange={(value)=> { this.usernameChange(value) }}
-                                    onChange={(value)=> { console.log(value) }}
-                                    options={this.state.userList}
-                                    value={this.state.selectedOption}
-                                    noOptionsMessage={() => `Loading...`}
-                                />
+                        <div className='dm-search-bar-main'>
+                            <Select className="dm-search-bar"
+                                placeholder='Search...'
+                                onInputChange={(value) => { this.usernameChange(value) }}
+                                onChange={(value) => { console.log(value) }}
+                                options={this.state.userList}
+                                value={this.state.selectedOption}
+                                noOptionsMessage={() => `Loading...`}
+                            />
                             <button className="go-button">Go</button>
                         </div>
                     </Modal.Body>
@@ -238,7 +311,7 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { searchUserData })(UserDetails);
+export default connect(mapStateToProps, { searchUserData, createChannel, getChannelList })(UserDetails);
 
 
 
