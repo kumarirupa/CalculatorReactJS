@@ -1,8 +1,5 @@
 import {
-    SEARCH_USER_DATA,
-    SEARCHING_USER,
-    SET_RESPONSE,
-    RESET_DATA
+    SEARCHING_USER
 } from '../../actions/actionTypes';
 import { SEARCH_USER } from '../../api'
 import APIService from "../../services/APIServices";

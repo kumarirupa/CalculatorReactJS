@@ -16,23 +16,28 @@ class UserDetails extends Component {
         super(props);
         this.state = {
             sampleArray: [1, 2, 3, 4, 5],
+            userArray: [],
+            channelName: '',
+            showChannelList: false,
+            showDirectMessageList: false,
+            show: false,
+            show2: false,
             userArray:[],
             channelName:'',
             selectedOption: null,
-            show: false,
             userList: [],
         }
-        this.handleChange=this.handleChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
 
     handleChange = val => {
-        this.setState({channelName : val});
+        this.setState({ channelName: val });
     };
 
     usernameChange = _.debounce(username => {
         this.searchByUserName(username);
-      }, 800);
+    }, 800);
 
     searchByUserName = async (username) => {
         if (username === null || username === undefined || username === '') {
@@ -63,6 +68,24 @@ class UserDetails extends Component {
                 })
             }
         }
+    }
+
+    setNewArray() {
+        this.setState({ userArray: this.state.userList })
+        console.log('New Array-->>>', this.state.userArray)
+    }
+
+    selectedValue = (selectedOption) => {
+        let tempUserArray = this.state.userArray
+        tempUserArray.push(selectedOption)
+        this.setState({ userArray: tempUserArray });
+    }
+
+    removeUser(index){
+        console.log('index',index)
+        let tempUserArray = this.state.userArray
+        tempUserArray.splice(index,1)
+        this.setState({ userArray: tempUserArray });
     }
 
 
@@ -111,7 +134,7 @@ class UserDetails extends Component {
                 })}
                 <div className='direct-messages-main'>
                     <h6>DIRECT MESSAGES</h6>
-                    <img onClick={() => this.setState({ showDirectMessageList: !this.state.showDirectMessageList })} src={images.path.plus} />
+                    <img onClick={() => this.setState({ show2: true })} src={images.path.plus} />
                 </div>
                 {this.state.sampleArray.map((ele, index) => {
                     return (
@@ -128,7 +151,6 @@ class UserDetails extends Component {
                     size="lg"
                     aria-labelledby="contained-modal-title-vcenter"
                     centered
-                    style={{ display: 'block' }}
                     show={this.state.show}
                 >
                     <Modal.Header>
@@ -137,30 +159,72 @@ class UserDetails extends Component {
                     <Modal.Body>
                         <div className='channel-name'>
                             <label>Name </label>
-                            <input id='name' name='channel' value={this.state.channelName} onChange={(event)=>this.handleChange(event.target.value)} type='text' placeholder='Channel Name' />
+                            <input id='name' name='channel' value={this.state.channelName} onChange={(event) => this.handleChange(event.target.value)} type='text' placeholder='Channel Name' />
                         </div>
                         <div className='select-user'>
                             <label>Add People </label>
                             <Select id="company"
                                 placeholder='Add team mates'
-                                onInputChange={(value)=> { this.usernameChange(value) }}
-                                onChange={(value)=> { console.log(value) }}
+                                onInputChange={(value) => { this.usernameChange(value) }}
+                                onChange={this.selectedValue}
                                 value={this.state.selectedOption}
                                 options={this.state.userList}
                                 noOptionsMessage={() => `Loading...`}
                             />
                         </div>
                         <div className='user-list'>
-                            <div className='user-box'>
-                                <h4>Rahul</h4>
-                                <img alt='' src={images.path.setting}/>
-                            </div>
+                            {this.state.userArray.map((user,i) => {
+                                console.log('new array', this.state.userArray)
+                                return(
+                                <div className='user-box'>
+                                    <h4>{user.label}</h4>
+                                    <i onClick={(evt)=>this.removeUser(evt.target.id)} id={i} class="fa fa-close"></i>
+                                </div>
+                                )
+                            })}
                         </div>
                     </Modal.Body>
                     <Modal.Footer>
                         <button id="create" onClick={() => { }}>Create</button>
                         <button id="close" onClick={() => { this.setState({ show: false }) }}>Close</button>
                     </Modal.Footer>
+                </Modal>
+
+
+
+
+
+                <Modal
+                    className='directMessage'
+                    size="lg"
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                    show={this.state.show2}
+                >
+                    <Modal.Header>
+                        <Modal.Title>
+                            
+                            <div>
+                            Direct Messages
+                            <button class="btn" onClick={()=>{ this.setState({ show2: false }) }}><i class="fa fa-close"></i></button>
+                            </div>
+                            
+                        </Modal.Title>
+                        
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className ='dm-search-bar-main'>
+                            <Select className = "dm-search-bar"
+                                    placeholder='Search...'
+                                    onInputChange={(value)=> { this.usernameChange(value) }}
+                                    onChange={(value)=> { console.log(value) }}
+                                    options={this.state.userList}
+                                    value={this.state.selectedOption}
+                                    noOptionsMessage={() => `Loading...`}
+                                />
+                            <button className="go-button">Go</button>
+                        </div>
+                    </Modal.Body>
                 </Modal>
             </div>
         )

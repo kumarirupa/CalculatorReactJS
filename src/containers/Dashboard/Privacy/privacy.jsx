@@ -8,12 +8,11 @@ import './privacy.scss';
 
 import images from '../../../images';
 import Swal from 'sweetalert2';
-import { getUserStatus, setUserStatus, searchUserData } from '../../Dashboard/action';
+import { getUserStatus, setUserStatus, searchUserData, getBlockUser } from '../../Dashboard/action';
 
 
 import messages from './../../../messages/language/index';
 import CookieStorage from './../../../utils/cookie-storage'
-import { async } from 'q';
 
 const language = CookieStorage.getCookie('language');
 const CONSTANTS = messages.messages[language];
@@ -27,10 +26,11 @@ class Privacy extends Component {
             searchString: '',
             dropdown: '',
             userList:[],
-            arrayClose:[]
+            
         };
         this.handleChange = this.handleChange.bind(this);
         this.getUserOnlineSatus();
+        this.getBlockUser();
     }
 
     getUserOnlineSatus = async () => {
@@ -85,8 +85,11 @@ class Privacy extends Component {
         this.setState({ [evt.target.name]: evt.target.value });
     }
      
-    blockUserClose(){
-        
+    blockUserClose(index){
+            console.log('close',index)
+            let tempUserArray = this.state.arrayCard
+            tempUserArray.splice(index,1)
+            this.setState({ arrayCard: tempUserArray });
     }
 
     usernameChange = _.debounce(username => {
@@ -123,7 +126,31 @@ class Privacy extends Component {
             }
         }
     }
-
+    
+    getBlockUser = async () => {
+        try {
+            const userStatus = await this.props.getBlockUser();
+            console.log('block user',userStatus)
+            this.setState({
+                onlineVisibility: userStatus.onlineVisibility
+            })
+        } catch (err) {
+            if (err.message) {
+                Swal.fire({
+                    text: err.message,
+                    type: 'error',
+                    confirmButtonText: CONSTANTS.common.SWEET_ALERT_OKAY_TEXT
+                })
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: CONSTANTS.common.SOMETHING_WENT_WRONG_ERROR,
+                    type: 'error',
+                    confirmButtonText: CONSTANTS.common.SWEET_ALERT_OKAY_TEXT
+                })
+            }
+        }
+    }
 
     render() {
        
@@ -147,13 +174,13 @@ class Privacy extends Component {
                     </div>
                     <div className="blockUser-display">
 
-                        {this.state.arrayCard.map((i) => {
+                        {this.state.arrayCard.map((element,i) => {
                             return <div className="blockUser-info">
-                                <div className='cross'>&times;</div>
                                 <div className="user-photo">
+                             <i onClick={(evt)=>this. blockUserClose(evt.target.id)} id={i} class="fa fa-close"></i>
                                     <img className="blockUser-img" src={`${images.path.sampleProfile}`} alt='user' />
                                 </div>
-                                <div className="user-name"><label>Name:{i.name}</label></div>
+                                <div className="user-name"><label>Name:{element.name}</label></div>
                             </div>
                         })}
                     </div>
@@ -168,4 +195,4 @@ function mapStateToProps(state) {
         ...state.DashboardReducer
     };
 }
-export default connect(mapStateToProps, { getUserStatus, setUserStatus, searchUserData })(Privacy);
+export default connect(mapStateToProps, { getUserStatus, setUserStatus, searchUserData, getBlockUser })(Privacy);

@@ -7,16 +7,17 @@ import {
     SET_RESPONSE,
     RESET_DATA,
     SEARCHING_USER,
-    SETTING_USER_STATUS
+    SETTING_USER_STATUS,
+    BLOCKING_USER
 } from '../../actions/actionTypes';
-import { USER_DETAILS, UPDATE_USER_DETAILS, GET_USER_PRIVACY_STATUS, SET_USER_PRIVACY_STATUS, SEARCH_USER  } from '../../api'
+import { USER_DETAILS, UPDATE_USER_DETAILS, GET_USER_PRIVACY_STATUS, SET_USER_PRIVACY_STATUS, SEARCH_USER, GET_BLOCK_USER  } from '../../api'
 import APIService from "../../services/APIServices";
 import CookieStorage from './../../utils/cookie-storage';
 
 import messages from './../../messages/language/index';
 const language = CookieStorage.getCookie('language');
 
-const CONSTANTS = messages.messages[language];
+const CONSTANTS = messages.messages[(language===null || language==='' || language===undefined) ? 'EN' : language];
 console.log(CONSTANTS);
 
 export const getUserDetails = userData => dispatch =>{
@@ -114,6 +115,21 @@ export const searchUserData = username => dispatch =>{
         });
     });
 }
+export const getBlockUser = userData => dispatch =>{
+    return  new Promise((resolve,reject)=>{
+        APIService("GET", GET_BLOCK_USER, userData , function(err, res) {
+            if (err) {
+                dispatch(blockUserLoader(false));
+                reject({
+                    message: CONSTANTS.httpErrorMessages.GET_USERS_PRIVACY_STATUS_ERROR
+                });
+            } else {
+                dispatch(blockUserLoader(false));
+                res.data.result !== null ? resolve(res.data.result): reject({message: CONSTANTS.httpErrorMessages.GET_USERS_PRIVACY_STATUS_ERROR});
+            }
+        });
+    });
+}
 
 const userDetails = payload => {
     return {
@@ -162,7 +178,12 @@ const searchUserLoader = payload => {
         payload
     };
 }
-
+const blockUserLoader = payload =>{
+    return {
+        type: BLOCKING_USER,
+        payload
+    };
+}
 const setResponse = (error, msg) => {
     return {
         type: SET_RESPONSE,
