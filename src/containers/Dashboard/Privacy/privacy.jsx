@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Switch from "react-switch";
+import Select from 'react-select';
+import _ from 'lodash';
+
 import './privacy.scss';
 
 import images from '../../../images';
 import Swal from 'sweetalert2';
-import { getUserStatus, setUserStatus} from '../../Dashboard/action';
+import { getUserStatus, setUserStatus, searchUserData, getBlockUser } from '../../Dashboard/action';
 
 
 import messages from './../../../messages/language/index';
@@ -22,12 +25,14 @@ class Privacy extends Component {
             arrayCard: [{ name: "james" }, { name: "preeti" }, { name: "pari" }],
             searchString: '',
             dropdown: '',
+            userList:[],
+            
         };
         this.handleChange = this.handleChange.bind(this);
-        this.searchUser = this.searchUser.bind(this);
         this.getUserOnlineSatus();
+        this.getBlockUser();
     }
-    
+
     getUserOnlineSatus = async () => {
         try {
             const userStatus = await this.props.getUserStatus();
@@ -51,12 +56,12 @@ class Privacy extends Component {
             }
         }
     }
-    
-      setUserOnlineSatus = async (onlineStatus) => {
+
+    setUserOnlineSatus = async (onlineStatus) => {
         try {
-                const userSet = await this.props.setUserStatus(onlineStatus);
-                this.setState({
-                    onlineVisibility: onlineStatus
+            const userSet = await this.props.setUserStatus(onlineStatus);
+            this.setState({
+                onlineVisibility: onlineStatus
             })
         } catch (err) {
             if (err.message) {
@@ -79,61 +84,103 @@ class Privacy extends Component {
     handleChange = evt => {
         this.setState({ [evt.target.name]: evt.target.value });
     }
+     
+    blockUserClose(index){
+            console.log('close',index)
+            let tempUserArray = this.state.arrayCard
+            tempUserArray.splice(index,1)
+            this.setState({ arrayCard: tempUserArray });
+    }
 
-    searchUser() {
-        let libraries = this.state.arrayCard;
-        const searchString = this.state.searchString.trim().toLowerCase();
-        if (searchString.length > 0) {
-            libraries = libraries.filter(function (i) {
-                return i.name.toLowerCase().match(searchString);
+    usernameChange = _.debounce(username => {
+        this.searchByUserName(username);
+      }, 800);
+
+    searchByUserName = async (username) => {
+        if (username === null || username === undefined || username === '') {
+            this.setState({
+                userList: []
             });
+            return;
         }
-        this.setState({arrayCard:libraries})
-        if (libraries.length > 0) {
+        try {
+            const searchedUserData = await this.props.searchUserData(username);
             this.setState({
-                dropdown:true,
-                libraries: libraries
-            })
-        } else {
-            this.setState({
-                dropdown:false,
-                libraries:null
+                userList: searchedUserData
             });
+        } catch (err) {
+            if (err.response)
+                Swal.fire({
+                    title: 'Error',
+                    text: err.response.data.message,
+                    type: 'error',
+                    confirmButtonText: 'Okay'
+                })
+            else {
+                Swal.fire({
+                    title: 'Error',
+                    text: `Something went Wrong`,
+                    type: 'error',
+                    confirmButtonText: 'Okay'
+                })
+            }
+        }
+    }
+    
+    getBlockUser = async () => {
+        try {
+            const userStatus = await this.props.getBlockUser();
+            console.log('block user',userStatus)
+            this.setState({
+                onlineVisibility: userStatus.onlineVisibility
+            })
+        } catch (err) {
+            if (err.message) {
+                Swal.fire({
+                    text: err.message,
+                    type: 'error',
+                    confirmButtonText: CONSTANTS.common.SWEET_ALERT_OKAY_TEXT
+                })
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: CONSTANTS.common.SOMETHING_WENT_WRONG_ERROR,
+                    type: 'error',
+                    confirmButtonText: CONSTANTS.common.SWEET_ALERT_OKAY_TEXT
+                })
+            }
         }
     }
 
     render() {
-        const { dropdown, libraries } = this.state
+       
         return (
-            <div className='privacy'>
+            <div id='privacy'>
                 <div className='privacy-details'>
                     <div className="online-status">
                         <label>ONLINE STATUS</label>
                         <Switch onChange={(value) => this.setUserOnlineSatus(value)} checked={this.state.onlineVisibility} />
                     </div>
-                    <div class="search-blockUser">
-                        <input className="search-field" type="text" value={this.state.searchString} onChange={this.handleChange} onKeyUp={this.searchUser} placeholder="Search.." name="searchString" />
-                        {console.log("search Text")}
-                        {dropdown ?
-                        <ul className="searchList">
-                            {
-                                libraries.map((suggestion, index) => {
-                                    console.log("suggetion",suggestion)
-                                   return (
-                                       <li key={index} className="listName" onClick={() => alert(suggestion.name)}>{suggestion.name}</li>
-                                   )
-                                })
-                            }
-                        </ul>
-                        : ''}
+                    <div className='select-user'>
+                        <label>Block People </label>
+                        <Select id="company"
+                            placeholder='Search'
+                            onInputChange={(value) => { this.usernameChange(value) }}
+                            onChange={(value) => { console.log(value) }}
+                            value={this.state.selectedOption}
+                            options={this.state.userList}
+                            noOptionsMessage={() => `Loading...`}
+                        />
                     </div>
                     <div className="blockUser-display">
-                        {this.state.arrayCard.map((i) => {
+
+                        {this.state.arrayCard.map((element,i) => {
                             return <div className="blockUser-info">
                                 <div className="user-photo">
+                             <i onClick={(evt)=>this. blockUserClose(evt.target.id)} id={i} class="fa fa-close"></i>
                                     <img className="blockUser-img" src={`${images.path.sampleProfile}`} alt='user' />
                                 </div>
-                                <div className="user-name"><label>Name:{i.name}</label></div>
+                                <div className="user-name"><label>Name:{element.name}</label></div>
                             </div>
                         })}
                     </div>
@@ -147,6 +194,5 @@ function mapStateToProps(state) {
     return {
         ...state.DashboardReducer
     };
-  }
-  export default connect(mapStateToProps, { getUserStatus, setUserStatus })(Privacy);
-  
+}
+export default connect(mapStateToProps, { getUserStatus, setUserStatus, searchUserData, getBlockUser })(Privacy);

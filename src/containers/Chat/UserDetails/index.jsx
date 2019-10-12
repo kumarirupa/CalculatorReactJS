@@ -25,7 +25,6 @@ class UserDetails extends Component {
             userArray: [],
             channelName: '',
             selectedOption: null,
-            show: false,
             userList: [],
             channelList: []
         }

@@ -6,9 +6,11 @@ import {
     UPDATING_USER_DATA,
     SET_RESPONSE,
     RESET_DATA,
-    SETTING_USER_STATUS
+    SEARCHING_USER,
+    SETTING_USER_STATUS,
+    BLOCKING_USER
 } from '../../actions/actionTypes';
-import { USER_DETAILS, UPDATE_USER_DETAILS, GET_USER_PRIVACY_STATUS, SET_USER_PRIVACY_STATUS } from '../../api'
+import { USER_DETAILS, UPDATE_USER_DETAILS, GET_USER_PRIVACY_STATUS, SET_USER_PRIVACY_STATUS, SEARCH_USER, GET_BLOCK_USER  } from '../../api'
 import APIService from "../../services/APIServices";
 import CookieStorage from './../../utils/cookie-storage';
 
@@ -86,6 +88,48 @@ export const setUserStatus = (userStatus) => dispatch =>{
         });
     });
 }
+export const searchUserData = username => dispatch =>{
+    return  new Promise((resolve,reject)=>{
+        dispatch(searchUserLoader(true));
+            APIService("GET", `${SEARCH_USER}/${username}`, null, function(err, res) {
+            if (err) {
+                dispatch(searchUserLoader(false));
+                reject(err);
+            } else {
+                dispatch(searchUserLoader(false));
+                let userList = [];
+                if(res.data.result !== null) {
+                    userList = res.data.result.map(user => {
+                        let firstName = user.firstName;
+                        firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+                        let lastName = user.lastName;
+                        lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1)
+                        return {
+                            label:`${firstName} ${lastName}`, value: user.id
+                        }
+                    });
+                }
+                console.log(userList);
+                resolve(userList);
+            }
+        });
+    });
+}
+export const getBlockUser = userData => dispatch =>{
+    return  new Promise((resolve,reject)=>{
+        APIService("GET", GET_BLOCK_USER, userData , function(err, res) {
+            if (err) {
+                dispatch(blockUserLoader(false));
+                reject({
+                    message: CONSTANTS.httpErrorMessages.GET_USERS_PRIVACY_STATUS_ERROR
+                });
+            } else {
+                dispatch(blockUserLoader(false));
+                res.data.result !== null ? resolve(res.data.result): reject({message: CONSTANTS.httpErrorMessages.GET_USERS_PRIVACY_STATUS_ERROR});
+            }
+        });
+    });
+}
 
 const userDetails = payload => {
     return {
@@ -128,7 +172,18 @@ const setUserStatusLoader = payload =>{
         payload
     }
 }
-
+const searchUserLoader = payload => {
+    return {
+        type: SEARCHING_USER,
+        payload
+    };
+}
+const blockUserLoader = payload =>{
+    return {
+        type: BLOCKING_USER,
+        payload
+    };
+}
 const setResponse = (error, msg) => {
     return {
         type: SET_RESPONSE,

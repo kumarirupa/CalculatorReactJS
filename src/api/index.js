@@ -22,3 +22,5 @@ export const SEARCH_USER =  `${baseURL}/searchUser`;
 export const CREATE_CHANNEL =  `http://192.168.0.128:3000/createChannel`;
 
 export const GET_CHANNEL_LIST =  `http://192.168.0.128:3000/getHomeChannels`;
+
+export const GET_BLOCK_USER = `http://192.168.0.171:4000/getBlockedUser`;
