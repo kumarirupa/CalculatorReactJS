@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Switch from "react-switch";
 import Select from 'react-select';
+import _ from 'lodash';
+
 import './privacy.scss';
 
 import images from '../../../images';
 import Swal from 'sweetalert2';
-import { getUserStatus, setUserStatus} from '../../Dashboard/action';
+import { getUserStatus, setUserStatus, searchUserData } from '../../Dashboard/action';
 
 
 import messages from './../../../messages/language/index';
@@ -24,12 +26,13 @@ class Privacy extends Component {
             arrayCard: [{ name: "james" }, { name: "preeti" }, { name: "pari" }],
             searchString: '',
             dropdown: '',
+            userList:[],
+            arrayClose:[]
         };
         this.handleChange = this.handleChange.bind(this);
-        this.searchUser = this.searchUser.bind(this);
         this.getUserOnlineSatus();
     }
-    
+
     getUserOnlineSatus = async () => {
         try {
             const userStatus = await this.props.getUserStatus();
@@ -53,12 +56,12 @@ class Privacy extends Component {
             }
         }
     }
-    
-      setUserOnlineSatus = async (onlineStatus) => {
+
+    setUserOnlineSatus = async (onlineStatus) => {
         try {
-                const userSet = await this.props.setUserStatus(onlineStatus);
-                this.setState({
-                    onlineVisibility: onlineStatus
+            const userSet = await this.props.setUserStatus(onlineStatus);
+            this.setState({
+                onlineVisibility: onlineStatus
             })
         } catch (err) {
             if (err.message) {
@@ -81,31 +84,49 @@ class Privacy extends Component {
     handleChange = evt => {
         this.setState({ [evt.target.name]: evt.target.value });
     }
+     
+    blockUserClose(){
+        
+    }
 
-    searchUser() {
-        let libraries = this.state.arrayCard;
-        const searchString = this.state.searchString.trim().toLowerCase();
-        if (searchString.length > 0) {
-            libraries = libraries.filter(function (i) {
-                return i.name.toLowerCase().match(searchString);
+    usernameChange = _.debounce(username => {
+        this.searchByUserName(username);
+      }, 800);
+
+    searchByUserName = async (username) => {
+        if (username === null || username === undefined || username === '') {
+            this.setState({
+                userList: []
             });
+            return;
         }
-        this.setState({arrayCard:libraries})
-        if (libraries.length > 0) {
+        try {
+            const searchedUserData = await this.props.searchUserData(username);
             this.setState({
-                dropdown:true,
-                libraries: libraries
-            })
-        } else {
-            this.setState({
-                dropdown:false,
-                libraries:null
+                userList: searchedUserData
             });
+        } catch (err) {
+            if (err.response)
+                Swal.fire({
+                    title: 'Error',
+                    text: err.response.data.message,
+                    type: 'error',
+                    confirmButtonText: 'Okay'
+                })
+            else {
+                Swal.fire({
+                    title: 'Error',
+                    text: `Something went Wrong`,
+                    type: 'error',
+                    confirmButtonText: 'Okay'
+                })
+            }
         }
     }
 
+
     render() {
-        const { dropdown, libraries } = this.state
+       
         return (
             <div id='privacy'>
                 <div className='privacy-details'>
@@ -113,25 +134,22 @@ class Privacy extends Component {
                         <label>ONLINE STATUS</label>
                         <Switch onChange={(value) => this.setUserOnlineSatus(value)} checked={this.state.onlineVisibility} />
                     </div>
-                    <div class="search-blockUser">
-                      <input className="search-field" type="text" value={this.state.searchString} onChange={this.handleChange} onKeyUp={this.searchUser} placeholder="Search.." name="searchString" />
-                       
-                        {dropdown ?
-                        <ul className="searchList">
-                            {
-                                libraries.map((suggestion, index) => {
-                                    console.log("suggetion",suggestion)
-                                   return (
-                                       <li key={index} className="listName" onClick={() => alert(suggestion.name)}>{suggestion.name}</li>
-                                   )
-                                })
-                            }
-                        </ul>
-                        : ''}
+                    <div className='select-user'>
+                        <label>Block People </label>
+                        <Select id="company"
+                            placeholder='Search'
+                            onInputChange={(value) => { this.usernameChange(value) }}
+                            onChange={(value) => { console.log(value) }}
+                            value={this.state.selectedOption}
+                            options={this.state.userList}
+                            noOptionsMessage={() => `Loading...`}
+                        />
                     </div>
                     <div className="blockUser-display">
+
                         {this.state.arrayCard.map((i) => {
                             return <div className="blockUser-info">
+                                <div className='cross'>&times;</div>
                                 <div className="user-photo">
                                     <img className="blockUser-img" src={`${images.path.sampleProfile}`} alt='user' />
                                 </div>
@@ -149,6 +167,5 @@ function mapStateToProps(state) {
     return {
         ...state.DashboardReducer
     };
-  }
-  export default connect(mapStateToProps, { getUserStatus, setUserStatus })(Privacy);
-  
+}
+export default connect(mapStateToProps, { getUserStatus, setUserStatus, searchUserData })(Privacy);

@@ -6,9 +6,10 @@ import {
     UPDATING_USER_DATA,
     SET_RESPONSE,
     RESET_DATA,
+    SEARCHING_USER,
     SETTING_USER_STATUS
 } from '../../actions/actionTypes';
-import { USER_DETAILS, UPDATE_USER_DETAILS, GET_USER_PRIVACY_STATUS, SET_USER_PRIVACY_STATUS } from '../../api'
+import { USER_DETAILS, UPDATE_USER_DETAILS, GET_USER_PRIVACY_STATUS, SET_USER_PRIVACY_STATUS, SEARCH_USER  } from '../../api'
 import APIService from "../../services/APIServices";
 import CookieStorage from './../../utils/cookie-storage';
 
@@ -86,6 +87,33 @@ export const setUserStatus = (userStatus) => dispatch =>{
         });
     });
 }
+export const searchUserData = username => dispatch =>{
+    return  new Promise((resolve,reject)=>{
+        dispatch(searchUserLoader(true));
+            APIService("GET", `${SEARCH_USER}/${username}`, null, function(err, res) {
+            if (err) {
+                dispatch(searchUserLoader(false));
+                reject(err);
+            } else {
+                dispatch(searchUserLoader(false));
+                let userList = [];
+                if(res.data.result !== null) {
+                    userList = res.data.result.map(user => {
+                        let firstName = user.firstName;
+                        firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+                        let lastName = user.lastName;
+                        lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1)
+                        return {
+                            label:`${firstName} ${lastName}`, value: user.id
+                        }
+                    });
+                }
+                console.log(userList);
+                resolve(userList);
+            }
+        });
+    });
+}
 
 const userDetails = payload => {
     return {
@@ -127,6 +155,12 @@ const setUserStatusLoader = payload =>{
         type: SETTING_USER_STATUS,
         payload
     }
+}
+const searchUserLoader = payload => {
+    return {
+        type: SEARCHING_USER,
+        payload
+    };
 }
 
 const setResponse = (error, msg) => {

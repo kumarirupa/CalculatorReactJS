@@ -10,12 +10,6 @@ import ProfileImage from '../../../components/ProfileImage';
 import './UserDetails.scss'
 import images from '../../../images';
 
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-];
-
 
 class UserDetails extends Component {
     constructor(props) {
