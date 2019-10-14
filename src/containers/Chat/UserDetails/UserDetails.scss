@@ -26,8 +26,8 @@
   .channel-name {
     display: flex;
     flex-direction: column;
-    margin-bottom: 30px;
-    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-top: 20px;
     #name {
       display: flex;
       align-items: center;
@@ -45,8 +45,8 @@
     }
   }
   .user-list {
-    margin-bottom: 30px;
-    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
     .user-box {
@@ -69,8 +69,8 @@
     }
   }
   .select-user {
-    margin-bottom: 30px;
-    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-top: 20px;
   }
 }
 

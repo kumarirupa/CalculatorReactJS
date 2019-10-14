@@ -16,13 +16,13 @@ class UserDetails extends Component {
         super(props);
         this.state = {
             sampleArray: [1, 2, 3, 4, 5],
-            userArray: [],
+            selectedUser: [],
             channelName: '',
             showChannelList: false,
             showDirectMessageList: false,
             show: false,
             show2: false,
-            userArray: [],
+            selectedUser: [],
             channelName: '',
             selectedOption: null,
             userList: [],
@@ -65,6 +65,53 @@ class UserDetails extends Component {
         }
     }
 
+    isFormValid = () => {
+        const { selectedUser, channelName } = this.state;
+        const dataCheck = !_.isEmpty(channelName);
+        const validateArray = !_.isEmpty(selectedUser);
+        const arrayLength = selectedUser.length > 1 ? true : false;
+        return arrayLength && validateArray && dataCheck ? true : false;
+    }
+
+    createChannel = async () => {
+        if (this.isFormValid()) {
+            const userData = {
+                name: this.state.channelName,
+                members: this.state.selectedUser.map((ele) => ele.value),
+            };
+            try {
+                const createChannel = await this.props.createChannel(userData);
+                console.log('Create Channel response', createChannel)
+                Swal.fire({
+                    title: 'Success',
+                    text: createChannel.data.message,
+                    type: 'success',
+                    confirmButtonText: 'Okay'
+                })
+                    .then(() => {
+                        this.getChannelList();
+                        this.setState({ show: false })
+                    })
+            } catch (err) {
+                if (err.response)
+                    Swal.fire({
+                        title: 'Error',
+                        text: err.response.data.message,
+                        type: 'error',
+                        confirmButtonText: 'Okay'
+                    })
+                else {
+                    Swal.fire({
+                        title: 'Error',
+                        text: `Something went Wrong`,
+                        type: 'error',
+                        confirmButtonText: 'Okay'
+                    })
+                }
+            }
+        }
+    }
+
     usernameChange = _.debounce(username => {
         this.searchByUserName(username);
     }, 800);
@@ -100,65 +147,17 @@ class UserDetails extends Component {
             }
         }
     }
-
-
-    isFormValid = () => {
-        const { userArray, channelName } = this.state;
-        const dataCheck = !_.isEmpty(channelName);
-        const validateArray = !_.isEmpty(userArray);
-        const arrayLength = userArray.length > 1 ? true : false;
-        return arrayLength && validateArray && dataCheck ? true : false;
-    }
-
-    createChannel = async () => {
-        if (this.isFormValid()) {
-            const userData = {
-                name: this.state.channelName,
-                members: this.state.userArray.map((ele) => ele.value),
-            };
-            try {
-                const createChannel = await this.props.createChannel(userData);
-                console.log('Create Channel response', createChannel)
-                Swal.fire({
-                    title: 'Success',
-                    text: createChannel.data.message,
-                    type: 'success',
-                    confirmButtonText: 'Okay'
-                })
-                    .then(() => {
-                        this.getChannelList();
-                        this.setState({ show: false })
-                    })
-            } catch (err) {
-                if (err.response)
-                    Swal.fire({
-                        title: 'Error',
-                        text: err.response.data.message,
-                        type: 'error',
-                        confirmButtonText: 'Okay'
-                    })
-                else {
-                    Swal.fire({
-                        title: 'Error',
-                        text: `Something went Wrong`,
-                        type: 'error',
-                        confirmButtonText: 'Okay'
-                    })
-                }
-            }
-        }
-    }
-
+    
     selectedValue = (selectedOption) => {
-        let tempUserArray = this.state.userArray
+        let tempUserArray = this.state.selectedUser
         tempUserArray.push(selectedOption)
-        this.setState({ userArray: tempUserArray });
+        this.setState({ selectedUser: tempUserArray });
     }
 
     removeUser(index) {
-        let tempUserArray = this.state.userArray
+        let tempUserArray = this.state.selectedUser
         tempUserArray.splice(index, 1)
-        this.setState({ userArray: tempUserArray });
+        this.setState({ selectedUser: tempUserArray });
     }
 
 
@@ -246,8 +245,8 @@ class UserDetails extends Component {
                             />
                         </div>
                         <div className='user-list'>
-                            {this.state.userArray.map((user, i) => {
-                                console.log('new array', this.state.userArray)
+                            {this.state.selectedUser.map((user, i) => {
+                                console.log('new array', this.state.selectedUser)
                                 return (
                                     <div className='user-box'>
                                         <h4>{user.label}</h4>

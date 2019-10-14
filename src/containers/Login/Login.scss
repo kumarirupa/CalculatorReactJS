@@ -39,13 +39,15 @@ $redGradient: url("../../images/red-gradient.png");
   .check-terms {
     width: 10%;
   }
-  h1 {
-    color: #c1272d;
-    text-align: center;
-  }
-  h3 {
-    color: #7a7a7a;
-    text-align: center;
+  .signIn-heading {
+    h1 {
+      color: #c1272d;
+      text-align: center;
+    }
+    h3 {
+      color: #7a7a7a;
+      text-align: center;
+    }
   }
   .error-msg {
     color: red;
