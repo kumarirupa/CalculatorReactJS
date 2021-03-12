@@ -51,7 +51,7 @@
     "react-app-polyfill": "^1.0.3",
     "react-bootstrap": "^1.0.0-beta.14",
     "react-bootstrap-modal": "^4.2.0",
-    "react-dev-utils": "^9.0.4",
+    "react-dev-utils": "^11.0.4",
     "react-dom": "^16.10.0",
     "react-helmet": "^5.2.1",
     "react-redux": "^7.1.1",
